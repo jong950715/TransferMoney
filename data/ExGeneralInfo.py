@@ -67,7 +67,8 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
                        }
         '''
         {
-            'BTC':  {
+            'BTCUSDT':  {
+            'KRW-BTC':  {
                         'qtyStep': 0.00000001
                         'minValue': 5000
                         
@@ -110,29 +111,31 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
         # self.upCli.get_chance(ticker=tickerToUpbitSymbol(ticker))
         # res = await self.upCli.get_chance(ticker='KRW-BTC')
         for ticker in self.tickers:
-            self.upExInfo[ticker]['qtyStep'] = Decimal(0.00000001)
-            self.upExInfo[ticker]['minValue'] = Decimal(5000)
+            sym = tickerToUpbitSymbol(ticker)
+            self.upExInfo[sym]['qtyStep'] = Decimal(0.00000001)
+            self.upExInfo[sym]['minValue'] = Decimal(5000)
 
     def _updateBnExInfo(self, msg, exInfo):
         for x in msg['symbols']:
+            sym = x['symbol']
             ticker = bnSymbolToTicker(x['symbol'])
             # ticker = x['baseAsset']
             if (not ticker) or (ticker not in self.tickers):
                 continue
             for fil in x['filters']:
                 if fil['filterType'] == 'PRICE_FILTER':  # 'PRICE_FILTER' 'LOT_SIZE' 'MIN_NOTIONAL'
-                    exInfo[ticker]['minPrice'] = Decimal(fil['minPrice'])
-                    exInfo[ticker]['maxPrice'] = Decimal(fil['maxPrice'])
-                    exInfo[ticker]['priceStep'] = Decimal(fil['tickSize'])
+                    exInfo[sym]['minPrice'] = Decimal(fil['minPrice'])
+                    exInfo[sym]['maxPrice'] = Decimal(fil['maxPrice'])
+                    exInfo[sym]['priceStep'] = Decimal(fil['tickSize'])
                 if fil['filterType'] == 'LOT_SIZE':
-                    exInfo[ticker]['minQty'] = Decimal(fil['minQty'])
-                    exInfo[ticker]['maxQty'] = Decimal(fil['maxQty'])
-                    exInfo[ticker]['qtyStep'] = Decimal(fil['stepSize'])
+                    exInfo[sym]['minQty'] = Decimal(fil['minQty'])
+                    exInfo[sym]['maxQty'] = Decimal(fil['maxQty'])
+                    exInfo[sym]['qtyStep'] = Decimal(fil['stepSize'])
                 if fil['filterType'] == 'MIN_NOTIONAL':
                     if 'notional' in fil.keys():
-                        exInfo[ticker]['minValue'] = Decimal(fil['notional'])
+                        exInfo[sym]['minValue'] = Decimal(fil['notional'])
                     if 'minNotional' in fil.keys():
-                        exInfo[ticker]['minValue'] = Decimal(fil['minNotional'])
+                        exInfo[sym]['minValue'] = Decimal(fil['minNotional'])
 
     async def updateBnExInfo(self):
         await self.requireUpdateTickers()
@@ -305,43 +308,6 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
         self.tickers = tickers
 
         return tickers
-
-    def _getUpbitPriceStep(self, price):
-        l = 0
-        r = 10
-        m = (l + r) // 2
-
-        while r - l != 0:
-            if price < PRICE_LEVELS[m]:
-                r = m - 1
-            else:
-                l = m
-            m = (l + r + 1) // 2
-
-        return PRICE_STEPS[m], m
-
-    def getUpbitPriceStep(self, price):
-        return self._getUpbitPriceStep(price)[0]
-
-    def getUpbitNextPrice(self, price, step):
-        if not isinstance(step, int):
-            step = int(step)
-        step = Decimal(step)
-
-        priceStep, m = self._getUpbitPriceStep(price)
-        newPrice = price + priceStep * step
-
-        if m == 10 and PRICE_LEVELS[m] <= newPrice:
-            return newPrice
-        if PRICE_LEVELS[m] <= newPrice < PRICE_LEVELS[m + 1]:
-            return newPrice
-
-        if step > 0:
-            newStep = step - (PRICE_LEVELS[m + 1] - price) // priceStep
-            return self.getUpbitNextPrice(PRICE_LEVELS[m + 1], newStep)
-        else:
-            newStep = step - (PRICE_LEVELS[m] - price) // priceStep
-            return self.getUpbitNextPrice(PRICE_LEVELS[m] - PRICE_STEPS[m - 1], newStep + 1)
 
     async def _run(self):
         while RUNNING_FLAG[0]:

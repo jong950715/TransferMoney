@@ -1,5 +1,7 @@
 
 import asyncio
+from decimal import Decimal
+
 from binance import AsyncClient, DepthCacheManager, BinanceSocketManager
 from binance.enums import FuturesType
 import json
@@ -15,7 +17,7 @@ class BaseWebSocket(SingleTonAsyncInit):
         #                                       ['price', 'qty'],
         #                                       ['price', 'qty'],
         #                                       ['price', 'qty'], ...]
-        self.orderBook = defaultdict(lambda: defaultdict(lambda: [[0, 0]] * MaxOderBookDepth)) #  bid = want to buy, ask = want to sell
+        self.orderBook = defaultdict(lambda: defaultdict(lambda: [[Decimal(), Decimal()]] * MaxOderBookDepth)) #  bid = want to buy, ask = want to sell
 
     def getOrderBook(self):
         return self.orderBook

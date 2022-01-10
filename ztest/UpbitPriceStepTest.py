@@ -1,13 +1,9 @@
 import asyncio
-
-from data.ExGeneralInfo import ExGeneralInfo
 from decimal import Decimal
 from data.dataCommons import *
 
 
 async def getStepTest():
-    exInfo = await ExGeneralInfo.createIns('dummyCli', 'dummyCli')
-    # await exInfo.updateAllInfo()
     testS = []
     for i in range(len(PRICE_LEVELS)):
         testS.append([PRICE_LEVELS[i], PRICE_STEPS[i]])
@@ -17,7 +13,7 @@ async def getStepTest():
 
     res = []
     for i, eo in testS:
-        ro = exInfo.getUpbitPriceStep(i)
+        ro = getUpbitPriceStep(i)
         res.append([i, ro])
         if ro != eo:
             print('warning!!', i, eo, ro)
@@ -28,7 +24,6 @@ async def getStepTest():
 
 
 async def moveStepTest():
-    exInfo = await ExGeneralInfo.createIns('dummyCli', 'dummyCli')
     tests = []
     for i in range(len(PRICE_LEVELS)):
         tests.append([[PRICE_LEVELS[i], 5], PRICE_LEVELS[i] + PRICE_STEPS[i] * 5])
@@ -36,9 +31,11 @@ async def moveStepTest():
         if i > 0:
             tests.append([[PRICE_LEVELS[i] + PRICE_STEPS[i] * 3, -5], PRICE_LEVELS[i] - PRICE_STEPS[i - 1] * 2])
 
+    tests.append([[73500000, -100000], 0])
+
     res = []
     for test, eo in tests:
-        ro = exInfo.getUpbitNextPrice(*test)
+        ro = getUpbitNextPrice(*test)
         if ro != eo:
             print('이상이상')
         res.append([test, ro])

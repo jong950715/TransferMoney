@@ -7,3 +7,15 @@
 # 지갑 등록해주세요~ 같은 메시지 필요할듯
 
 # balance 관련 업뎃 ㄱㄱ
+
+# No float Yes Decimal
+
+# FT balance tickers 개수에 따라서 다르게 해도 좋을듯
+
+# view를 위해서 balance 적어도 1초에 1번 같은 로직 있으면 좋을듯
+
+# krw, usdt 잔고보고 verifying
+
+# fastBooting 필요
+
+# booting중 인터페이스 필요 되는건지 뭔지

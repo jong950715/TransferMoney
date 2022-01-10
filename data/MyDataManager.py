@@ -21,10 +21,9 @@ BIG_FLOAT_NUMBER = float('inf')
 
 
 class MyDataManager(SingleTonAsyncInit):
-    async def _asyncInit(self):
-        configKeys = (await MyConfigManager.getIns()).getConfig('configKeys')
-        self.upCli = UpClient(access=configKeys['upbit']['api_key'], secret=configKeys['upbit']['secret_key'])
-        self.bnCli = await BnClient.create(configKeys['binance']['api_key'], configKeys['binance']['secret_key'])
+    async def _asyncInit(self, upCli: UpClient, bnCli: BnClient):
+        self.upCli = upCli
+        self.bnCli = bnCli
 
         self.exInfo = await ExGeneralInfo.createIns(upCli=self.upCli, bnCli=self.bnCli)
         await self.exInfo.updateAllInfo()
@@ -39,7 +38,12 @@ class MyDataManager(SingleTonAsyncInit):
 
         self.upToBnDataCache = [['준비중']]
 
+        self.orderBooks = self._getOrderBook()
+
         self.run()
+
+    async def updateBalances(self, tickers):
+        await self.balanceManager.updateBalances(tickers)
 
     def getBalances(self):
         return self.balanceManager.getBalances()
@@ -53,7 +57,10 @@ class MyDataManager(SingleTonAsyncInit):
     def getUpOrderBook(self):
         return self.upWebSocket.getOrderBook()
 
-    def getOrderBook(self):
+    def getOrderBooks(self):
+        return self.orderBooks
+
+    def _getOrderBook(self):
         up, sp, ft = self.getUpOrderBook(), self.getBnSpOrderBook(), self.getBnFtOrderBook()
         orderBook = {'up': up,
                      'sp': sp,
@@ -88,11 +95,11 @@ class MyDataManager(SingleTonAsyncInit):
         for i, tic in enumerate(self.tickers):
             upSym = tickerToUpbitSymbol(tic)
             bnSym = tickerToBnSymbol(tic)
-            upAsk, bnSpBid, bnFtBid = toDecimal(self.getOrderBook()['up'][upSym]['ask'][0][0]), Decimal(
-                self.getOrderBook()['sp'][bnSym]['bid'][0][0]), Decimal(
-                self.getOrderBook()['ft'][bnSym]['bid'][0][0])
-            upAskQty = toDecimal(self.getOrderBook()['up'][upSym]['ask'][0][1])
-            remainQty = remainNotional/upAsk
+            upAsk, bnSpBid, bnFtBid = Decimal(self.orderBooks['up'][upSym]['ask'][0][0]), toDecimal(
+                self.orderBooks['sp'][bnSym]['bid'][0][0]), toDecimal(
+                self.orderBooks['ft'][bnSym]['bid'][0][0])
+            upAskQty = Decimal(self.orderBooks['up'][upSym]['ask'][0][1])
+            remainQty = remainNotional / upAsk if remainNotional != None else upAskQty
 
             '''###-###'''
 
@@ -103,7 +110,7 @@ class MyDataManager(SingleTonAsyncInit):
             else:
                 try:
                     res[i]['price'] = (upAsk * remainQty) / (
-                                bnSpBid * (remainQty - self.getWalletInfo()['up'][tic]['fee']))
+                            bnSpBid * (remainQty - self.getWalletInfo()['up'][tic]['fee']))
                 except ZeroDivisionError:
                     res[i][2] = BIG_FLOAT_NUMBER
                 except Exception as e:
@@ -115,7 +122,8 @@ class MyDataManager(SingleTonAsyncInit):
             res[i]['upWithdraw'] = self.getWalletInfo()['up'][tic]['withdraw']
             res[i]['bnDeposit'] = self.getWalletInfo()['bn'][tic]['deposit']
 
-        res.sort(key=lambda x: x['price'] if (x['price'] > 0 and x['upWithdraw'] and x['bnDeposit']) else BIG_FLOAT_NUMBER)
+        res.sort(
+            key=lambda x: x['price'] if (x['price'] > 0 and x['upWithdraw'] and x['bnDeposit']) else BIG_FLOAT_NUMBER)
 
         self.upToBnDataCache = res
 

@@ -17,9 +17,9 @@ class BalanceManager(SingleTonAsyncInit):
         self.bnCli = bnCli
 
         # xxBalance['BTC'] = 10000
-        self.upBalance = defaultdict(lambda: 0.0)
-        self.spBalance = defaultdict(lambda: 0.0)
-        self.ftBalance = defaultdict(lambda: 0.0)
+        self.upBalance = defaultdict(Decimal)
+        self.spBalance = defaultdict(Decimal)
+        self.ftBalance = defaultdict(Decimal)
 
         self.balances = {'up': self.upBalance,
                          'sp': self.spBalance,
@@ -49,6 +49,9 @@ class BalanceManager(SingleTonAsyncInit):
                 self.spBalance[ticker] = Decimal(r['free']) + Decimal(r['locked'])
 
     async def updateFtBalance(self, tickers):
+        if not tickers:
+            return
+
         tasks = [asyncio.create_task(self.bnCli.futures_position_information(symbol=tickerToBnSymbol(ticker))) for ticker in tickers]
         returns, pending = await asyncio.wait(tasks)
 

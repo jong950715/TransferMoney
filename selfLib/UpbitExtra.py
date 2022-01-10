@@ -50,16 +50,16 @@ class UpbitExtra(Upbit):
         except:
             raise
 
-    async def buy_limit_order(self, ticker: str, price, volume, contain_req: bool = False) -> tuple or dict:
+    async def create_limit_order(self, symbol, side, price, quantity, contain_req: bool = False) -> tuple or dict:
         try:
             url = "https://api.upbit.com/v1/orders"
-            data = {"market": ticker,
-                    "side": "bid",
-                    "volume": str(volume),
-                    "price": str(price),
+            data = {"market": symbol,
+                    "side": side,
+                    "volume": quantity,
+                    "price": price,
                     "ord_type": "limit"}
             headers = await self._request_headers(data)
             body, remain = await _send_post_request(url, headers=headers, data=data)
             return (body, remain) if contain_req else body
-        except:
-            raise
+        except Exception as e:
+            raise e

@@ -1,0 +1,10 @@
+orderBooks[ex][symbol][askOrBid][0][0=p/1=q]
+
+orderBooks['up']['KRW-BTC']['ask'][0][0]: float
+orderBooks['sp']['BTCUSDT']['ask'][0][0]: str
+
+balances[ex][ticker]
+
+balances['up']['BTC']: str
+balances['sp']['BTC']: Decimal
+

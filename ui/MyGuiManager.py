@@ -40,6 +40,11 @@ class MyGuiManager(SingleTonAsyncInit):
     def _initControl(self):
         self.transferDir = TransferDir.UpToBn
         self.controlWindow.widgets['btnToggleDir'].config(command=self._toggleDir)
+        self.controlWindow.widgets['btnUpToBn'].config(command=self._startTransfer)
+
+    def _startTransfer(self):
+        notional = Decimal(self.controlWindow.widgets['entryKrwStr'].get())
+        self.transferMoney.startTransfer(dir=self.transferDir, notional=notional)
 
     def _toggleDir(self):
         if self.transferDir == TransferDir.UpToBn:
@@ -64,10 +69,12 @@ class MyGuiManager(SingleTonAsyncInit):
 
     async def updateView(self):
         self.viewWindow.setDataUpToBn(await self.getUpToBnData())
-        self.getTransferState()
 
     async def updateControl(self):
-        pass
+        if self.transferMoney:
+            self.controlWindow.setState(self.transferMoney.getState())
+        else:
+            self.controlWindow.setState(TransferState.PREPARING)
 
     async def _run(self):
         while True:

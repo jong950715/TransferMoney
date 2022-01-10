@@ -48,6 +48,64 @@ PRICE_LEVELS = (D0, D0_1, D1, D10, D100, D1_000, D10_000, D100_000, D500_000, D1
 '''
 
 
+def _getUpbitPriceStep(price):
+    l = 0
+    r = 10
+    m = (l + r) // 2
+
+    while r - l != 0:
+        if price < PRICE_LEVELS[m]:
+            r = m - 1
+        else:
+            l = m
+        m = (l + r + 1) // 2
+
+    return PRICE_STEPS[m], m
+
+
+def getUpbitPriceStep(price):
+    return _getUpbitPriceStep(price)[0]
+
+
+def getUpbitNextPrice(price, step):
+    if not isinstance(step, int):
+        step = int(step)
+    step = Decimal(step)
+
+    priceStep, m = _getUpbitPriceStep(price)
+    newPrice = price + priceStep * step
+
+    if m == 10 and PRICE_LEVELS[m] <= newPrice:
+        return newPrice
+    if PRICE_LEVELS[m] <= newPrice < PRICE_LEVELS[m + 1]:
+        return newPrice
+
+    if step > 0:
+        newStep = step - (PRICE_LEVELS[m + 1] - price) // priceStep
+        return getUpbitNextPrice(PRICE_LEVELS[m + 1], newStep)
+    else:
+        newStep = step - (PRICE_LEVELS[m] - price) // priceStep
+        return getUpbitNextPrice(PRICE_LEVELS[m] - PRICE_STEPS[m - 1], newStep + 1)
+
+
+def symbolToTicker(ex, symbol):
+    if ex == 'up':
+        return upbitSymbolToTicker(symbol)
+    elif ex == 'sp' or ex == 'ft':
+        return bnSymbolToTicker(symbol)
+    else:
+        raise Exception('등록되지 않은 거래소 닉네임 입니다. :', ex)
+
+
+def tickerToSymbol(ex, ticker):
+    if ex == 'up':
+        return tickerToUpbitSymbol(ticker)
+    elif ex == 'sp' or ex == 'ft':
+        return tickerToBnSymbol(ticker)
+    else:
+        raise Exception('등록되지 않은 거래소 닉네임 입니다. :', ex)
+
+
 def upbitSymbolToTicker(symbol):
     return symbol.split('-')[1]
 

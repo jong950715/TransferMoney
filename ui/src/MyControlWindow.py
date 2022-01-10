@@ -9,6 +9,7 @@ class MyControlWindow:
         self.window = window
         self.widgets = dict()
         self._loadWindow(self.window)
+        self.prevState = TransferState.PREPARING
 
     def _loadWindow(self, newApp):
         newApp.geometry('600x300')
@@ -16,7 +17,6 @@ class MyControlWindow:
         self.widgets['entryKrwStr'] = tk.StringVar()
         self.widgets['entryKrw'] = tk.Entry(newApp, textvariable=self.widgets['entryKrwStr'])
         self.widgets['entryKrw'].grid(row=0, column=0, rowspan=2, columnspan=3, sticky='news', pady=15)
-
 
         self.widgets['dummyLabel'] = tk.Label(newApp)
         self.widgets['dummyLabel'].grid(row=2, column=0, rowspan=1, columnspan=6, sticky='news')
@@ -36,14 +36,20 @@ class MyControlWindow:
         self.widgets['btnBnToUp'] = tk.Button(newApp, text='BN -> UP')
         self.widgets['btnBnToUp'].grid(row=3, column=4, rowspan=2, columnspan=2, sticky='news', pady=15)
 
-        self.widgets['labelBuying'] = tk.Label(newApp, text='1. 매수단계')
-        self.widgets['labelBuying'].grid(row=2, column=6, rowspan=1, columnspan=2, sticky='news')
+        self.widgets['labelPREPARING'] = tk.Label(newApp, text='0. 준비중')
+        self.widgets['labelPREPARING'].grid(row=0, column=6, rowspan=1, columnspan=2, sticky='news')
 
-        self.widgets['label4'] = tk.Label(newApp, text='2. 전송단계')
-        self.widgets['label4'].grid(row=3, column=6, rowspan=1, columnspan=2, sticky='news')
+        self.widgets['labelSTANDBY'] = tk.Label(newApp, text='0. 준비완료')
+        self.widgets['labelSTANDBY'].grid(row=1, column=6, rowspan=1, columnspan=2, sticky='news')
 
-        self.widgets['label5'] = tk.Label(newApp, text='3. 매도단계')
-        self.widgets['label5'].grid(row=4, column=6, rowspan=1, columnspan=2, sticky='news')
+        self.widgets['labelBUYING'] = tk.Label(newApp, text='1. 매수단계')
+        self.widgets['labelBUYING'].grid(row=2, column=6, rowspan=1, columnspan=2, sticky='news')
+
+        self.widgets['labelTRANSFERRING'] = tk.Label(newApp, text='2. 전송단계')
+        self.widgets['labelTRANSFERRING'].grid(row=3, column=6, rowspan=1, columnspan=2, sticky='news')
+
+        self.widgets['labelSELLING'] = tk.Label(newApp, text='3. 매도단계')
+        self.widgets['labelSELLING'].grid(row=4, column=6, rowspan=1, columnspan=2, sticky='news')
 
         self.widgets['btnToggleDir'] = tk.Button(newApp, text='UP to BN')
         self.widgets['btnToggleDir'].grid(row=0, column=7, rowspan=1, columnspan=1, sticky='ne')
@@ -52,18 +58,26 @@ class MyControlWindow:
         newApp.rowconfigure(tuple(range(5)), weight=1)
 
     def setState(self, state):
+        prevName = 'label{0}'.format(self.prevState)
+        labelName = 'label{0}'.format(state)
+
         if state == TransferState.PREPARING:
             pass
         elif state == TransferState.STANDBY:
             pass
         elif state == TransferState.BUYING:
-            self.widgets['labelBuying'].config(relief='ridge', borderwidth =3)
+            pass
         elif state == TransferState.TRANSFERRING:
             pass
         elif state == TransferState.SELLING:
             pass
         elif state == TransferState.DONE:
             pass
+
+        self.widgets[prevName].config(relief='flat')
+        self.widgets[labelName].config(relief='ridge', borderwidth=3)
+
+        self.prevState = state
 
 
 def main():

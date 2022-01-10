@@ -3,7 +3,7 @@ import asyncio
 def checkRemainGeneral(func):
     async def wrapper(*args, **kwargs):
         self = args[0]
-        while self.generalRemains <= 0:
+        while self.generalRemains < 2:
             await asyncio.sleep(0.1)
         self.generalRemains -= 1
 
@@ -15,7 +15,7 @@ def checkRemainGeneral(func):
 def checkRemainOrder(func):
     async def wrapper(*args, **kwargs):
         self = args[0]
-        while self.orderRemains <= 0:
+        while self.orderRemains < 2:
             await asyncio.sleep(0.1)
         self.orderRemains -= 1
 

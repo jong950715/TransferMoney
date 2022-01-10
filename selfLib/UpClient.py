@@ -4,8 +4,8 @@ from selfLib.UpClientDecorator import *
 
 
 class UpClient(UpbitExtra):
-    _ORDER_PER_SEC = 8-1
-    _GENERAL_PER_SEC = 30-1
+    _ORDER_PER_SEC = 8
+    _GENERAL_PER_SEC = 30
 
     def __init__(self, *args, **kwargs):
         super(UpClient, self).__init__(*args, **kwargs)
@@ -18,8 +18,8 @@ class UpClient(UpbitExtra):
         그리고 업비트 내부적으로 1초마다 remain 업뎃하는게 확인되었음.
         '''
 
-        self.orderRemains = self._ORDER_PER_SEC
-        self.generalRemains = self._GENERAL_PER_SEC
+        self.orderRemains = 0
+        self.generalRemains = 0
 
         self.run()
 
@@ -28,9 +28,9 @@ class UpClient(UpbitExtra):
 
     async def _run(self):
         while True:
-            await asyncio.sleep(1.2)
-            self.orderRemains += self._ORDER_PER_SEC
-            self.generalRemains += self._GENERAL_PER_SEC
+            await asyncio.sleep(0.35)
+            self.orderRemains += self._ORDER_PER_SEC//4
+            self.generalRemains += self._GENERAL_PER_SEC//4
             self.orderRemains = self.orderRemains if self.orderRemains < self._ORDER_PER_SEC else self._ORDER_PER_SEC
             self.generalRemains = self.generalRemains if self.generalRemains < self._GENERAL_PER_SEC else self._GENERAL_PER_SEC
 

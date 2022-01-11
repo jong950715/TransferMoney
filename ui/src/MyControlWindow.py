@@ -1,6 +1,7 @@
 from tkinter import ttk
 import tkinter as tk
 
+from ui.src.EntryCommaNumber import EntryCommaNumber
 from work.TranferMoney import TransferState
 
 
@@ -14,14 +15,13 @@ class MyControlWindow:
     def _loadWindow(self, newApp):
         newApp.geometry('600x300')
 
-        self.widgets['entryKrwStr'] = tk.StringVar()
-        self.widgets['entryKrw'] = tk.Entry(newApp, textvariable=self.widgets['entryKrwStr'])
+        self.widgets['entryKrw'] = EntryCommaNumber(newApp)
         self.widgets['entryKrw'].grid(row=0, column=0, rowspan=2, columnspan=3, sticky='news', pady=15)
 
         self.widgets['dummyLabel'] = tk.Label(newApp)
         self.widgets['dummyLabel'].grid(row=2, column=0, rowspan=1, columnspan=6, sticky='news')
 
-        self.widgets['entryUsdt'] = tk.Entry(newApp)
+        self.widgets['entryUsdt'] = EntryCommaNumber(newApp)
         self.widgets['entryUsdt'].grid(row=3, column=0, rowspan=2, columnspan=3, sticky='news', pady=15)
 
         self.widgets['label1'] = tk.Label(newApp, text='KRW')

@@ -10,3 +10,5 @@ s = '{:.3g}'.format(i)
 print(s)
 
 print('{:,}'.format(123123123123.123123))
+
+print('{}hi'.format('world'))

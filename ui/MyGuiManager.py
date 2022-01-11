@@ -43,8 +43,8 @@ class MyGuiManager(SingleTonAsyncInit):
         self.controlWindow.widgets['btnUpToBn'].config(command=self._startTransfer)
 
     def _startTransfer(self):
-        notional = Decimal(self.controlWindow.widgets['entryKrwStr'].get())
-        self.transferMoney.startTransfer(dir=self.transferDir, notional=notional)
+        notional = Decimal(self.controlWindow.widgets['entryKrw'].get())
+        self.transferMoney.startTransfer(_dir=self.transferDir, notional=notional)
 
     def _toggleDir(self):
         if self.transferDir == TransferDir.UpToBn:

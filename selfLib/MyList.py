@@ -27,7 +27,7 @@ class MyList(list):
             return key
         else:
             # return self.TO_INDEX[key]
-            return self.LUT_INDEX[self.LUT_STR.index(key)]
+            return MyList.LUT_INDEX[self.LUT_STR.index(key)]
 
 
 def test():

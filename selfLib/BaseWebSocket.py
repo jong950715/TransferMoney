@@ -24,7 +24,10 @@ class BaseWebSocket(SingleTonAsyncInit):
 
     async def awaitOrderBookUpdate(self):
         books = list(self.orderBook.values())
-        tasks = [asyncio.create_task(book['event'].wait()) for book in books]
+        try:
+            tasks = [asyncio.create_task(book['event'].wait()) for book in books]
+        except Exception as e:
+            print(books)
         returns, pending = await asyncio.wait(tasks)
 
     def clearAwaitEvent(self):

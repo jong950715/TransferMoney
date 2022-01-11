@@ -16,12 +16,14 @@ from data.BnFtWebSocket import BnFtWebSocket
 from data.BnSpWebSocket import BnSpWebSocket
 from data.ExGeneralInfo import ExGeneralInfo
 from data.UpWebSocket import UpWebSocket
+from ui.MyLogger import MyLogger
 
 BIG_FLOAT_NUMBER = float('inf')
 
 
 class MyDataManager(SingleTonAsyncInit):
     async def _asyncInit(self, upCli: UpClient, bnCli: BnClient):
+        self.logger = MyLogger.getLogger()
         self.upCli = upCli
         self.bnCli = bnCli
 
@@ -30,9 +32,14 @@ class MyDataManager(SingleTonAsyncInit):
 
         self.tickers = self.exInfo.getTickers()
 
+        self.logger.info('[시작] 웹소켓 설정을 시작합니다.')
+        self.logger.info('\t 바이낸스 선물 웹소켓')
         self.bnFtWebSocket = await BnFtWebSocket.createIns(bnCli=self.bnCli, tickers=self.tickers)
+        self.logger.info('\t 바이낸스 현물 웹소켓')
         self.bnSpWebSocket = await BnSpWebSocket.createIns(bnCli=self.bnCli, tickers=self.tickers)
+        self.logger.info('\t 업비트 현물 웹소켓')
         self.upWebSocket = await UpWebSocket.createIns(tickers=self.tickers)
+        self.logger.info('[끝] 웹소켓 설정이 끝났습니다.')
 
         self.balanceManager = await BalanceManager.createIns(upCli=self.upCli, bnCli=self.bnCli)
 

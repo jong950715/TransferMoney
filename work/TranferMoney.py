@@ -6,11 +6,16 @@ from enum import Enum
 from common.SingleTonAsyncInit import SingleTonAsyncInit
 from common.createTask import createTask
 from data.MyDataManager import MyDataManager
-from data.dataCommons import tickerToUpbitSymbol, toDecimal, tickerToBnSymbol, symbolToTicker, tickerToSymbol
+from data.dataCommons import toDecimal, tickerToSymbol
+from definitions import getRootDir
+from work.CheckPointManager import CheckPointManager
 from work.OrderManager import OrderManager
 
-UPBIT_TOL_KRW = 50000
-BINAN_TOL_USD = 50
+UPBIT_TOL_KRW = Decimal(50000)
+BINAN_TOL_USD = Decimal(50)
+
+TM_PICKLE_FILE = '{0}/work/TransferMoney.pickle'.format(getRootDir())
+
 
 class TransferDir(Enum):
     UpToBn = 'Up To Bn'
@@ -32,7 +37,7 @@ class TransferState(Enum):
         return self.value
 
 
-class TransferMoney(SingleTonAsyncInit):
+class TransferMoney(SingleTonAsyncInit, CheckPointManager):
     async def _asyncInit(self, dataManager: MyDataManager, orderManager: OrderManager):
         self.dataManger = dataManager
         self.orderManager = orderManager
@@ -41,6 +46,11 @@ class TransferMoney(SingleTonAsyncInit):
 
         self.orderBooks = dataManager.getOrderBooks()
         self.balances = dataManager.getBalances()
+
+        self._setPickleFile(TM_PICKLE_FILE)
+        self._setPickleList(['_dir', 'totalNotional', 'remainNotional',
+                             'buyingTickers', 'targetBalances', 'runState'])
+        self.checkUnPredictedExit()
 
         self.run()
 
@@ -70,27 +80,30 @@ class TransferMoney(SingleTonAsyncInit):
     async def runStandby(self):
         pass
 
-    def startTransfer(self, dir: TransferDir, notional):
+    def startTransfer(self, _dir: TransferDir, notional):
+        if self.runState == TransferState.STANDBY:
+            self.initBuying(_dir, notional)
         # state 검사 로직 추가
-        self.dir = dir
+
+    def initBuying(self, _dir, notional):
+        self._dir = _dir
+
         self.totalNotional = notional
         self.remainNotional = notional
 
-        self.initBuying()
-
-    def initBuying(self):
         self.buyingTickers = []
 
-        self.targetBalance = {'up': defaultdict(Decimal),
-                              'sp': defaultdict(Decimal),
-                              'ft': defaultdict(Decimal)
-                              }
+        self.targetBalances = {'up': defaultdict(Decimal),
+                               'sp': defaultdict(Decimal),
+                               'ft': defaultdict(Decimal)
+                               }
 
         self.runState = TransferState.BUYING
-        self.cnt = 0
+
+        self.saveCheckPoint()
 
     async def runBuying(self):
-        # 방향 반응형으로 만들고, GUI까지 테스트 고고하자
+        # 방향 반응형으로 만들고, GUI까지 테스트 고고하자, 피클링까지 고민해야됨..
         await asyncio.sleep(3)
         await self.traceTargetBalance()  # 별도로 백그라운드로 뺄 수도 있음
         await self._runBuying()
@@ -99,33 +112,97 @@ class TransferMoney(SingleTonAsyncInit):
             self.initTransferring()
 
     async def cancelAllOrders(self):
-        pass
+        await self.orderManager.cancelOrderBatch()
 
     async def traceTargetBalance(self):
+        """
+        피클링 목록
+        self.dir
+        self.totalNotional
+        self.remainNotional
+        self.buyingTickers
+        self.targetBalances
+        self.runState
+
+        방향성 목록
+        upReal
+        ftReal
+        upTarget
+        ftTarget
+        upSym
+        ftSym
+        upQty
+        ftQty
+        upPrice
+        ftPrice
+        """
+        if self._dir == TransferDir.UpToBn:
+            buyEx = 'up'
+            sellEx = 'ft'
+        elif self._dir == TransferDir.BnToUp:
+            buyEx = 'sp'
+            sellEx = 'ft'
+        else:
+            raise Exception('dir이 이상해..', self._dir)
+
         await self.dataManger.updateBalances(tickers=self.buyingTickers)
         await self.cancelAllOrders()
 
         orderList = []
         for ticker in self.buyingTickers:
-            upReal = Decimal(self.balances['up'][ticker])
-            ftReal = self.balances['ft'][ticker]
-            upTarget = self.targetBalance['up'][ticker]
-            ftTarget = self.targetBalance['ft'][ticker]
+            buyBalanceQty = self._getBalance(buyEx, ticker)
+            sellBalanceQty = self._getBalance(sellEx, ticker)
+            buyTargetQty = self.targetBalances[buyEx][ticker]
+            sellTargetQty = self.targetBalances[sellEx][ticker]
 
-            upSym = tickerToUpbitSymbol(ticker)
-            ftSym = tickerToBnSymbol(ticker)
-            upQty = upTarget - upReal
-            ftQty = ftTarget - ftReal
-            upPrice = Decimal(self.orderBooks['up'][upSym]['ask'][0][0])
-            ftPrice = toDecimal(self.orderBooks['ft'][upSym]['bid'][0][0])
+            buySym = tickerToSymbol(buyEx, ticker)
+            sellSym = tickerToSymbol(sellEx, ticker)
+            buyQty = buyTargetQty - buyBalanceQty
+            sellQty = sellTargetQty - sellBalanceQty
+            buyPrice = self._getBestBidAskPrice(buyEx, buySym, 'ask')
+            sellPrice = self._getBestBidAskPrice(sellEx, sellSym, 'bid')
 
-            orderList.append(['up', upSym, upPrice, upQty])
-            orderList.append(['ft', ftSym, ftPrice, ftQty])
+            orderList.append([buyEx, buySym, buyPrice, buyQty])
+            orderList.append([sellEx, sellSym, sellPrice, sellQty])
 
+        self.saveCheckPoint()
         await self.orderManager.submitOrderBatch(orderList)
 
+    def _getBalance(self, ex, ticker):
+        if ex == 'up':
+            return Decimal(self.balances[ex][ticker])
+        elif ex == 'sp' or ex == 'ft':
+            return self.balances[ex][ticker]
+
+    def _getBestBidAskPrice(self, ex, sym, bidAsk):
+        if ex == 'up':
+            return Decimal(self.orderBooks[ex][sym][bidAsk][0][0])
+        elif ex == 'sp' or ex == 'ft':
+            return toDecimal(self.orderBooks[ex][sym][bidAsk][0][0])
+
     async def _runBuying(self):
-        if self.remainNotional < UPBIT_TOL_KRW:
+        """
+        방향성
+        UPBIT_TOL_KRW
+        sym
+        price
+        notional
+        qty
+        ftSym
+        ftPrice
+        """
+        if self._dir == TransferDir.UpToBn:
+            fromTolNotional = UPBIT_TOL_KRW
+            buyEx = 'up'
+            sellEx = 'ft'
+        elif self._dir == TransferDir.BnToUp:
+            fromTolNotional = BINAN_TOL_USD
+            buyEx = 'sp'
+            sellEx = 'ft'
+        else:
+            raise Exception('dir이 이상해..', self._dir)
+
+        if self.remainNotional < fromTolNotional:
             return
 
         # data[i] = MyList
@@ -137,22 +214,38 @@ class TransferMoney(SingleTonAsyncInit):
         data = data[0]
 
         ticker = data['ticker']
-        sym = tickerToSymbol('up', ticker)
-        price = data['upAsk']
-        notional = data['volume'] * data['upAsk']
-        qty = data['volume'] if notional < self.remainNotional else self.remainNotional / data['upAsk']
+        buySym = tickerToSymbol(buyEx, ticker)
+        buyPrice = data['{}Ask'.format(buyEx)]
+        buyMaxNotional = data['volume'] * data['{}Ask'.format(buyEx)]
+        qty = data['volume'] if buyMaxNotional < self.remainNotional else self.remainNotional / data[
+            '{}Ask'.format(buyEx)]
 
-        ftSym = tickerToSymbol('ft', ticker)
-        ftPrice = data['ftBid']
+        sellSym = tickerToSymbol(sellEx, ticker)
+        sellPrice = data['{}Bid'.format(sellEx)]
 
-        orderList = [['up', sym, price, qty],
-                     ['ft', ftSym, ftPrice, qty]]
+        orderList = [[buyEx, buySym, buyPrice, qty],
+                     [sellEx, sellSym, sellPrice, -qty]]
+
+        self.saveCheckPoint()
         await self.orderManager.submitOrderBatch(orderList)
 
-        self.targetBalance['up'][ticker] += qty
-        self.targetBalance['sp'][ticker] -= qty
-        self.remainNotional -= qty * price
+        self.targetBalances[buyEx][ticker] += qty
+        self.targetBalances[sellEx][ticker] -= qty
+        self.remainNotional -= qty * buyPrice
         self.buyingTickers.append(ticker)
+        self.saveCheckPoint()
+
+    def _saveBuying(self):
+        """
+        피클링 목록
+        self.dir
+        self.totalNotional
+        self.remainNotional
+        self.buyingTickers
+        self.targetBalances
+        self.runState
+        """
+        pass
 
     def isBuyingFinished(self):
         # 탈출조건
@@ -161,31 +254,64 @@ class TransferMoney(SingleTonAsyncInit):
         실제 balace의 notional과
         타겟 balace의 notional이 오차범위 내에 있으면 탈출
         '''
-        if self.remainNotional > UPBIT_TOL_KRW:  # Decimal vs int는 가능
+        """
+        방향성 목록
+        UPBIT_TOL_KRW
+        BINAN_TOL_USD
+        upNotional
+        ftNotional
+        upTarget
+        ftTarget
+        upDiff
+        ftDiff
+        """
+        if self._dir == TransferDir.UpToBn:
+            buyTolNotional = UPBIT_TOL_KRW
+            sellTolNotional = BINAN_TOL_USD
+            buyEx = 'up'
+            sellEx = 'ft'
+        elif self._dir == TransferDir.BnToUp:
+            buyTolNotional = BINAN_TOL_USD
+            sellTolNotional = BINAN_TOL_USD
+            buyEx = 'sp'
+            sellEx = 'ft'
+        else:
+            raise Exception('dir이 이상해..', self._dir)
+
+        if self.remainNotional > buyTolNotional:  # Decimal vs int는 가능
             return False
 
-        upNotional = Decimal()
-        ftNotional = Decimal()
-        upTarget = Decimal()
-        ftTarget = Decimal()
+        buyNotional = Decimal()
+        sellNotional = Decimal()
+        buyTargetNotional = Decimal()
+        sellTargetNotional = Decimal()
         for ticker in self.buyingTickers:
-            upAsk = toDecimal(self.orderBooks['up'][tickerToUpbitSymbol(ticker)]['ask'][0][0])
-            ftBid = Decimal(self.orderBooks['ft'][tickerToBnSymbol(ticker)]['bid'][0][0])
-            upNotional += Decimal(self.balances['up'][ticker]) * upAsk
-            upTarget += self.targetBalance['up'][ticker] * upAsk
-            ftNotional += self.balances['ft'][ticker] * ftBid
-            ftTarget += self.targetBalance['ft'][ticker] * ftBid
+            buySym = tickerToSymbol(buyEx, ticker)
+            sellSym = tickerToSymbol(sellEx, ticker)
 
-        upDiff = upTarget - upNotional
-        ftDiff = ftTarget - ftNotional
+            buyPrice = self._getBestBidAskPrice(buyEx, buySym, 'ask')
+            sellPrice = self._getBestBidAskPrice(sellEx, sellSym, 'bid')
 
-        if upDiff < UPBIT_TOL_KRW and ftDiff < BINAN_TOL_USD:
+            buyBalanceQty = self._getBalance(buyEx, ticker)
+            sellBalanceQty = self._getBalance(sellEx, ticker)
+
+            buyNotional += buyBalanceQty * buyPrice
+            buyTargetNotional += self.targetBalances[buyEx][ticker] * buyPrice
+
+            sellNotional += sellBalanceQty * sellPrice
+            sellTargetNotional += self.targetBalances[sellEx][ticker] * sellPrice
+
+        buyDiff = buyTargetNotional - buyNotional
+        sellDiff = sellTargetNotional - sellNotional
+
+        if abs(buyDiff) < buyTolNotional and abs(sellDiff) < sellTolNotional:
             return True
         else:
             return False
 
     def initTransferring(self):
         self.runState = TransferState.TRANSFERRING
+        self.saveCheckPoint()
 
     async def runTransferring(self):
         pass
@@ -206,7 +332,7 @@ class TransferMoney(SingleTonAsyncInit):
 async def main():
     dataManager = await MyDataManager.createIns()
     transferMoney = await TransferMoney.createIns(dataManager)
-    transferMoney.startTransfer(dir=TransferDir.UpToBn, notional=1000000)
+    transferMoney.startTransfer(_dir=TransferDir.UpToBn, notional=1000000)
 
     while True:
         await asyncio.sleep(1)

@@ -1,6 +1,9 @@
 import asyncio
 from decimal import Decimal
+
+from aiopyupbit import UpbitError
 from binance import AsyncClient as BnClient
+from binance.exceptions import BinanceAPIException
 
 from config.MyConfigManager import MyConfigManager
 from selfLib.UpClient import UpClient
@@ -76,9 +79,9 @@ class BaseOrder:
     def logOrder(self):
         msg = (
                 '#ORDER#'
-                '\n sym : %s'
-                '\n p : %f'
-                '\n q : %f' % (self.sym, self.price, self.qty))
+                '\t sym : %s'
+                '\t p : %f'
+                '\t q : %f' % (self.sym, self.price, self.qty))
 
         print(msg)
 
@@ -88,11 +91,10 @@ class BaseOrder:
             return
 
         if self.qty:
-            await self.submit()
+            self.logOrder()
+            return await self.submit()
         else:
             raise Exception("qty 0 주문은 안돼~")
-
-        self.logOrder()
 
 
 class FtOrder(BaseOrder):
@@ -102,9 +104,9 @@ class FtOrder(BaseOrder):
         else:
             side = 'SELL'
             self.qty = -self.qty
-        res = await self.cli.futures_create_order(symbol=self.sym, price=self.price,
-                                                  quantity=self.qty, side=side,
-                                                  type='LIMIT', timeInForce='GTC')
+        return await self.cli.futures_create_order(symbol=self.sym, price=self.price,
+                                                   quantity=self.qty, side=side,
+                                                   type='LIMIT', timeInForce='GTC')
 
 
 class SpOrder(BaseOrder):
@@ -114,9 +116,9 @@ class SpOrder(BaseOrder):
         else:
             side = 'SELL'
             self.qty = -self.qty
-        await self.cli.create_order(symbol=self.sym, price=self.price,
-                                    quantity=self.qty, side=side,
-                                    type='LIMIT', timeInForce='GTC')
+        return await self.cli.create_order(symbol=self.sym, price=self.price,
+                                           quantity=self.qty, side=side,
+                                           type='LIMIT', timeInForce='GTC')
 
 
 class UpOrder(BaseOrder):
@@ -126,8 +128,8 @@ class UpOrder(BaseOrder):
         else:
             side = 'ask'
             self.qty = -self.qty
-        await self.cli.create_limit_order(symbol=self.sym, price=self.price,
-                                          quantity=self.qty, side=side)
+        return await self.cli.create_limit_order(symbol=self.sym, price=self.price,
+                                                 quantity=self.qty, side=side)
 
     def loadInfos(self):
         self.priceStep = getUpbitPriceStep(self.price)
@@ -142,12 +144,36 @@ async def example():
     upCli = UpClient(access=configKeys['upbit']['api_key'], secret=configKeys['upbit']['secret_key'])
     bnCli = await BnClient.create(configKeys['binance']['api_key'], configKeys['binance']['secret_key'])
 
-    await upCli.create_limit_order(symbol='KRW-BTC', price='40000000',
-                                   quantity='0.01', side='bid')
+    # res = await upCli.create_limit_order(symbol='KRW-BTC', price='40000000',
+    #                                      quantity='0.01', side='bid')
+    # print(res)
+    #
+    # '58ca143d-bf4d-487e-9136-c1cba08082f4'
+    # res['uuid']
+    # try:
+    #     res = await upCli.cancel_order(uuid='58ca143d-bf4d-487e-9136-c1cba08082f4')
+    #     print(res)
+    # except UpbitError as e:
+    #     print(e)
 
-    # await bnCli.create_order(symbol='BTCUSDT', price='40001',
-    #                          quantity='0.01', side='BUY',
-    #                          type='LIMIT', timeInForce='GTC')
+
+    #
+    # res = await bnCli.futures_create_order(symbol='BTCUSDT', price='40001',
+    #                                        quantity='0.01', side='BUY',
+    #                                        type='LIMIT', timeInForce='GTC')
+    # print(res)
+
+    # res['orderId'] 40487413746
+    # res['clientOrderId'] 'lCYzrzV9Q9PCPo1bD0uVTa'
+    #
+    try:
+        res = await bnCli.cancel_order(symbol='BTCUSDT', orderId=40487413746)
+        print(res)
+    except BinanceAPIException as e:
+        print(e.message)
+        print(e.code)
+        if e.code == -2011:
+            print('yes')
 
 
 if __name__ == "__main__":

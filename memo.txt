@@ -1,21 +1,28 @@
-# 거래는 symbol로 wallet은 ticker로 해야할것 같음.
-
-# transXXX 객체는 피클링이 필요함. 중간에 에러났을 때, 대응 가능하게
-
 # 업빗 입금 wallet 주소 확인 필요
 # 업/바 입출금 wallet 화이트리스팅 확인 필요
 # 지갑 등록해주세요~ 같은 메시지 필요할듯
 
-# balance 관련 업뎃 ㄱㄱ
+# balance 관련 view 업뎃 ㄱㄱ
 
 # No float Yes Decimal
 
-# FT balance tickers 개수에 따라서 다르게 해도 좋을듯
 
-# view를 위해서 balance 적어도 1초에 1번 같은 로직 있으면 좋을듯
 
 # krw, usdt 잔고보고 verifying
+# 잔고 딸릴때 에러 코드 확인하고 try except 적용하기
+
+# 메일주소 백상찬 바꾸기!!
+
+# view를 위해서 balance 적어도 1초에 1번 같은 로직 있으면 좋을듯
+==========
+
 
 # fastBooting 필요
 
 # booting중 인터페이스 필요 되는건지 뭔지
+
+# 입력창 콤마
+
+# 진행단계창 배경색이나 좀 더 눈에 띄는걸로
+
+# FT balance tickers 개수에 따라서 다르게 해도 좋을듯

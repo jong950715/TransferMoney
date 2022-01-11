@@ -46,8 +46,11 @@ class MyFileHandler(logging.Handler):
 
 
 class MyLogger(SingleTonAsyncInit):
+    logger = None
+
     async def _asyncInit(self):
         self.logger = logging.getLogger(LOGGER_NAME)
+        self.__class__.logger = self.logger
         self.logger.setLevel(LOGGER_LEVEL)
         formatter = logging.Formatter(
             '|%(asctime)s|'
@@ -64,8 +67,12 @@ class MyLogger(SingleTonAsyncInit):
             h.setFormatter(formatter)
             self.logger.addHandler(h)
 
-    def getLogger(self):
-        return self.logger
+    @classmethod
+    def getLogger(cls):
+        if cls.logger:
+            return cls.logger
+        else:
+            raise Exception("생성이 안됨 초기화 후 사용 바람")
 
     async def run(self):
         # flush every 10seconds

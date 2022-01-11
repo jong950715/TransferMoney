@@ -15,6 +15,8 @@ from decimal import Decimal
 from definitions import getRootDir
 import re
 
+from ui.MyLogger import MyLogger
+
 '''
 입출금 현황 ::dev done
 출금 수수료 ::dev done
@@ -33,6 +35,7 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
 
         self.upCli = upCli
         self.bnCli = bnCli
+        self.logger = MyLogger.getLogger()
         self.tickers = []
 
         self.upWalletInfo = defaultdict(dict)
@@ -107,13 +110,15 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
             return False
 
     async def updateUpExInfo(self):
+        self.logger.info('[시작] 업비트 거래소 정보를 받아오고 있습니다.')
         await self.requireUpdateTickers()
         # self.upCli.get_chance(ticker=tickerToUpbitSymbol(ticker))
         # res = await self.upCli.get_chance(ticker='KRW-BTC')
         for ticker in self.tickers:
             sym = tickerToUpbitSymbol(ticker)
-            self.upExInfo[sym]['qtyStep'] = Decimal(0.00000001)
-            self.upExInfo[sym]['minValue'] = Decimal(5000)
+            self.upExInfo[sym]['qtyStep'] = Decimal('0.00000001')
+            self.upExInfo[sym]['minValue'] = Decimal('5000')
+        self.logger.info('[끝] 업비트 거래소 정보를 받아왔습니다.')
 
     def _updateBnExInfo(self, msg, exInfo):
         for x in msg['symbols']:
@@ -138,24 +143,30 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
                         exInfo[sym]['minValue'] = Decimal(fil['minNotional'])
 
     async def updateBnExInfo(self):
+        self.logger.info('[시작] 바이낸스 거래소 정보를 받아오고 있습니다.')
         await self.requireUpdateTickers()
         ftex = await self.bnCli.futures_exchange_info()
         spex = await self.bnCli.get_exchange_info()
         self._updateBnExInfo(ftex, self.bnFtExInfo)
         self._updateBnExInfo(spex, self.bnSpExInfo)
+        self.logger.info('[끝] 바이낸스 거래소 정보를 받아왔습니다.')
 
     async def updateBnAddress(self):
+        self.logger.info('[시작] 바이낸스 지갑 주소를 받아오고 있습니다.')
         await self.requireUpdateTickers()
 
         for ticker in self.tickers:
+            if self.walletInfo['bn'][ticker]['deposit'] is False:
+                continue
             ad = await self.bnCli.get_deposit_address(coin=ticker, network=self._getNetwork(ticker))
             if self.verifyAddress(ticker, ad['address']) and ad['coin'] == ticker:
                 self.bnWalletInfo[ticker]['address1'] = ad['address']
                 self.bnWalletInfo[ticker]['address2'] = ad['tag']
 
-        return
+        self.logger.info('[끝] 바이낸스 지갑 주소를 받아왔습니다.')
 
     async def updateUpbitAddress(self):
+        self.logger.info('[시작] 업비트 지갑 주소를 받아오고 있습니다.')
         ads = await self.upCli.get_deposit_addresses()
         for ad in ads:
             ticker = ad['currency']
@@ -165,7 +176,8 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
                 self.upWalletInfo[ticker]['address1'] = ad['deposit_address']
                 self.upWalletInfo[ticker]['address2'] = ad['secondary_address']
             else:
-                print('주소가 이상합니다. {0} : {1}'.format(ticker, ad['deposit_address']))
+                self.logger.error('주소가 이상합니다. {0} : {1}'.format(ticker, ad['deposit_address']))
+        self.logger.info('[끝] 업비트 지갑 주소를 받아왔습니다.')
 
     async def requireUpdateTickers(self):
         if len(self.tickers) == 0:
@@ -182,10 +194,13 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
         return network
 
     async def updateUpWalletInfo(self):
+        self.logger.info('[시작] 업비트 지갑 정보를 받아오고 있습니다.')
         await self._upbitDepWitStatus()
         await self._upbitWithdrawFees()
+        self.logger.info('[끝] 업비트 지갑 정보를 받아왔습니다.')
 
     async def updateBnWalletInfo(self):
+        self.logger.info('[시작] 바이낸스 지갑 정보를 받아오고 있습니다.')
         await self.requireUpdateTickers()
 
         bnAllInfo = await self.bnCli.get_all_coins_info()
@@ -208,7 +223,7 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
             else:
                 raise Exception('network 정보가 상이합니다.', ticker, net)
 
-        return
+        self.logger.info('[끝] 바이낸스 지갑 정보를 받아왔습니다.')
 
     async def _upbitDepWitStatus(self):
         await self.requireUpdateTickers()
@@ -257,6 +272,7 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
             self.upWalletInfo[ticker]['withdrawDecimal'] = Decimal('10') ** (-1 * Decimal(r['withdraw_limit']['fixed']))
 
     async def updateTickers(self):
+        self.logger.info("[시작] 티커 정보를 업데이트를 시작 합니다.")
         upMarkets = await self.upCli.get_markets()  # upMarkets[0]['market'].split('-')[0]
         bnSpInfo = await self.bnCli.get_exchange_info()  # futere에 있으면 여기 무조건 있음. 생략
         bnFtInfo = await self.bnCli.futures_exchange_info()  # bnFtInfo['symbols'][0]['baseAsset']
@@ -307,6 +323,7 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
 
         self.tickers = tickers
 
+        self.logger.info("[끝] 티커 정보를 업데이트가 완료 되었습니다.")
         return tickers
 
     async def _run(self):

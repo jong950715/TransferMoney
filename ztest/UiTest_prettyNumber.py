@@ -1,9 +1,8 @@
-from decimal import Decimal, ConversionSyntax
+from decimal import Decimal, ConversionSyntax, InvalidOperation
 from tkinter import *
 import tkinter as tk
 
-
-class EntryClarityNumber(tk.Entry):
+class EntryCommaNumber(tk.Entry):
     """
     숫자 읽기 좋은 Entry
     """
@@ -21,7 +20,7 @@ class EntryClarityNumber(tk.Entry):
         s = s.replace(',', '')
         try:
             s = "{:,}".format(Decimal(s))
-        except ConversionSyntax:
+        except (ConversionSyntax, InvalidOperation):
             pass
         except Exception as e:
             raise e
@@ -33,10 +32,13 @@ class EntryClarityNumber(tk.Entry):
         position = self.index(INSERT)
         self.icursor(position + self.comCnt - pCnt)
 
+    def get(self):
+        pass
+
 
 def main():
     app = tk.Tk()
-    entry = EntryClarityNumber(app)
+    entry = EntryCommaNumber(app)
     entry.pack()
     app.mainloop()
 

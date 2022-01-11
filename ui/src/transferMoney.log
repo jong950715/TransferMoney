@@ -1,1 +1,201 @@
 |2022-01-08 15:39:37,049|	##ERROR##	테스트	 >> File "loggerTest.py", line 10, in loggerTest
+|2022-01-10 22:50:24,556|	##INFO##	업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 195, in ExGeneralInfo
+|2022-01-10 22:50:24,556|	##INFO##	티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 273, in ExGeneralInfo
+|2022-01-10 22:50:25,095|	##INFO##	티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 324, in ExGeneralInfo
+|2022-01-10 22:50:27,519|	##INFO##	업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 198, in ExGeneralInfo
+|2022-01-10 22:50:27,519|	##INFO##	바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 201, in ExGeneralInfo
+|2022-01-10 22:50:27,679|	##INFO##	바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 224, in ExGeneralInfo
+|2022-01-10 22:50:27,679|	##INFO##	업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 167, in ExGeneralInfo
+|2022-01-10 22:50:27,801|	##INFO##	업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 178, in ExGeneralInfo
+|2022-01-10 22:50:27,801|	##INFO##	바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-10 22:50:34,645|	##INFO##	바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 164, in ExGeneralInfo
+|2022-01-10 22:50:34,645|	##INFO##	업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 113, in ExGeneralInfo
+|2022-01-10 22:50:34,645|	##INFO##	업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 121, in ExGeneralInfo
+|2022-01-10 22:50:34,879|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 22:50:34,880|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 22:50:34,880|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 22:50:34,882|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 22:54:39,063|	##INFO##	업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 195, in ExGeneralInfo
+|2022-01-10 22:54:39,064|	##INFO##	티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 273, in ExGeneralInfo
+|2022-01-10 22:54:39,463|	##INFO##	티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 324, in ExGeneralInfo
+|2022-01-10 22:54:41,765|	##INFO##	업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 198, in ExGeneralInfo
+|2022-01-10 22:54:41,765|	##INFO##	바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 201, in ExGeneralInfo
+|2022-01-10 22:54:41,933|	##INFO##	바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 224, in ExGeneralInfo
+|2022-01-10 22:54:41,934|	##INFO##	업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 167, in ExGeneralInfo
+|2022-01-10 22:54:42,057|	##INFO##	업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 178, in ExGeneralInfo
+|2022-01-10 22:54:42,057|	##INFO##	바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-10 22:54:47,654|	##INFO##	바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 164, in ExGeneralInfo
+|2022-01-10 22:54:47,654|	##INFO##	업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 113, in ExGeneralInfo
+|2022-01-10 22:54:47,654|	##INFO##	업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 121, in ExGeneralInfo
+|2022-01-10 22:54:48,031|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 22:54:48,032|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 22:54:48,032|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 22:54:48,038|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 22:57:54,520|	##INFO##	업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 195, in ExGeneralInfo
+|2022-01-10 22:57:54,520|	##INFO##	티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 273, in ExGeneralInfo
+|2022-01-10 22:57:54,882|	##INFO##	티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 324, in ExGeneralInfo
+|2022-01-10 22:57:57,340|	##INFO##	업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 198, in ExGeneralInfo
+|2022-01-10 22:57:57,341|	##INFO##	바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 201, in ExGeneralInfo
+|2022-01-10 22:57:57,471|	##INFO##	바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 224, in ExGeneralInfo
+|2022-01-10 22:57:57,471|	##INFO##	업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 167, in ExGeneralInfo
+|2022-01-10 22:57:57,547|	##INFO##	업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 178, in ExGeneralInfo
+|2022-01-10 22:57:57,547|	##INFO##	바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-10 22:58:03,538|	##INFO##	바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 164, in ExGeneralInfo
+|2022-01-10 22:58:03,539|	##INFO##	업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 113, in ExGeneralInfo
+|2022-01-10 22:58:03,539|	##INFO##	업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 121, in ExGeneralInfo
+|2022-01-10 22:58:03,787|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 22:58:03,788|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 22:58:03,789|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 22:58:03,795|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 22:58:23,967|	##INFO##	업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 195, in ExGeneralInfo
+|2022-01-10 22:58:23,967|	##INFO##	티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 273, in ExGeneralInfo
+|2022-01-10 22:58:24,304|	##INFO##	티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 324, in ExGeneralInfo
+|2022-01-10 22:58:26,623|	##INFO##	업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 198, in ExGeneralInfo
+|2022-01-10 22:58:26,623|	##INFO##	바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 201, in ExGeneralInfo
+|2022-01-10 22:58:26,739|	##INFO##	바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 224, in ExGeneralInfo
+|2022-01-10 22:58:26,740|	##INFO##	업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 167, in ExGeneralInfo
+|2022-01-10 22:58:26,855|	##INFO##	업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 178, in ExGeneralInfo
+|2022-01-10 22:58:26,855|	##INFO##	바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-10 22:58:33,424|	##INFO##	바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 164, in ExGeneralInfo
+|2022-01-10 22:58:33,425|	##INFO##	업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 113, in ExGeneralInfo
+|2022-01-10 22:58:33,425|	##INFO##	업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 121, in ExGeneralInfo
+|2022-01-10 22:58:33,642|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 22:58:33,644|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 22:58:33,644|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 22:58:33,649|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 23:01:54,890|	##INFO##	업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 195, in ExGeneralInfo
+|2022-01-10 23:01:54,890|	##INFO##	티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 273, in ExGeneralInfo
+|2022-01-10 23:01:55,403|	##INFO##	티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 324, in ExGeneralInfo
+|2022-01-10 23:01:57,683|	##INFO##	업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 198, in ExGeneralInfo
+|2022-01-10 23:01:57,683|	##INFO##	바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 201, in ExGeneralInfo
+|2022-01-10 23:01:57,835|	##INFO##	바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 224, in ExGeneralInfo
+|2022-01-10 23:01:57,835|	##INFO##	업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 167, in ExGeneralInfo
+|2022-01-10 23:01:57,939|	##INFO##	업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 178, in ExGeneralInfo
+|2022-01-10 23:01:57,939|	##INFO##	바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-10 23:02:03,871|	##INFO##	바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 164, in ExGeneralInfo
+|2022-01-10 23:02:03,871|	##INFO##	업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 113, in ExGeneralInfo
+|2022-01-10 23:02:03,871|	##INFO##	업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 121, in ExGeneralInfo
+|2022-01-10 23:02:04,238|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 23:02:04,239|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 23:02:04,239|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 23:02:04,241|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 23:03:20,544|	##INFO##	업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 195, in ExGeneralInfo
+|2022-01-10 23:03:20,544|	##INFO##	티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 273, in ExGeneralInfo
+|2022-01-10 23:03:21,393|	##INFO##	티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 324, in ExGeneralInfo
+|2022-01-10 23:03:23,481|	##INFO##	업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 198, in ExGeneralInfo
+|2022-01-10 23:03:23,481|	##INFO##	바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 201, in ExGeneralInfo
+|2022-01-10 23:03:23,633|	##INFO##	바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 224, in ExGeneralInfo
+|2022-01-10 23:03:23,633|	##INFO##	업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 167, in ExGeneralInfo
+|2022-01-10 23:03:23,754|	##INFO##	업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 178, in ExGeneralInfo
+|2022-01-10 23:03:23,754|	##INFO##	바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-10 23:03:29,743|	##INFO##	바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 164, in ExGeneralInfo
+|2022-01-10 23:03:29,743|	##INFO##	업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 113, in ExGeneralInfo
+|2022-01-10 23:03:29,743|	##INFO##	업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 121, in ExGeneralInfo
+|2022-01-10 23:03:29,935|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 23:03:29,936|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 23:03:29,936|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 23:03:29,938|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 23:05:09,263|	##INFO##	업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 195, in ExGeneralInfo
+|2022-01-10 23:05:09,263|	##INFO##	티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 273, in ExGeneralInfo
+|2022-01-10 23:05:09,803|	##INFO##	티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 324, in ExGeneralInfo
+|2022-01-10 23:05:12,227|	##INFO##	업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 198, in ExGeneralInfo
+|2022-01-10 23:05:12,227|	##INFO##	바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 201, in ExGeneralInfo
+|2022-01-10 23:05:12,431|	##INFO##	바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 224, in ExGeneralInfo
+|2022-01-10 23:05:12,431|	##INFO##	업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 167, in ExGeneralInfo
+|2022-01-10 23:05:12,548|	##INFO##	업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 178, in ExGeneralInfo
+|2022-01-10 23:05:12,549|	##INFO##	바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-10 23:05:17,887|	##INFO##	바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 164, in ExGeneralInfo
+|2022-01-10 23:05:17,887|	##INFO##	업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 113, in ExGeneralInfo
+|2022-01-10 23:05:17,887|	##INFO##	업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 121, in ExGeneralInfo
+|2022-01-10 23:05:18,026|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 23:05:18,026|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-10 23:05:18,026|	##INFO##	바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 124, in ExGeneralInfo
+|2022-01-10 23:05:18,029|	##INFO##	바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-11 01:37:40,529|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 195, in ExGeneralInfo
+|2022-01-11 01:37:40,529|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 273, in ExGeneralInfo
+|2022-01-11 01:37:41,214|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 324, in ExGeneralInfo
+|2022-01-11 01:37:43,391|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 198, in ExGeneralInfo
+|2022-01-11 01:37:43,391|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 201, in ExGeneralInfo
+|2022-01-11 01:37:43,707|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 224, in ExGeneralInfo
+|2022-01-11 01:37:43,708|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 167, in ExGeneralInfo
+|2022-01-11 01:37:43,836|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 178, in ExGeneralInfo
+|2022-01-11 01:37:43,836|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-11 01:37:49,928|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 164, in ExGeneralInfo
+|2022-01-11 01:37:49,929|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 113, in ExGeneralInfo
+|2022-01-11 01:37:49,929|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 121, in ExGeneralInfo
+|2022-01-11 01:37:49,929|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 146, in ExGeneralInfo
+|2022-01-11 01:37:50,127|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 152, in ExGeneralInfo
+|2022-01-11 01:38:37,993|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 195, in ExGeneralInfo
+|2022-01-11 01:38:37,993|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 273, in ExGeneralInfo
+|2022-01-11 01:38:38,510|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 324, in ExGeneralInfo
+|2022-01-11 01:38:41,114|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 198, in ExGeneralInfo
+|2022-01-11 01:38:41,114|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 201, in ExGeneralInfo
+|2022-01-11 01:38:41,230|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 224, in ExGeneralInfo
+|2022-01-11 01:38:41,230|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 167, in ExGeneralInfo
+|2022-01-11 01:38:41,377|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 178, in ExGeneralInfo
+|2022-01-11 01:38:41,378|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-11 01:38:46,841|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 164, in ExGeneralInfo
+|2022-01-11 01:38:46,841|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 113, in ExGeneralInfo
+|2022-01-11 01:38:46,841|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 121, in ExGeneralInfo
+|2022-01-11 01:38:46,841|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 146, in ExGeneralInfo
+|2022-01-11 01:38:47,074|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 152, in ExGeneralInfo
+|2022-01-11 01:55:37,901|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 195, in ExGeneralInfo
+|2022-01-11 01:55:37,901|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 273, in ExGeneralInfo
+|2022-01-11 01:55:38,525|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 324, in ExGeneralInfo
+|2022-01-11 01:55:40,918|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 198, in ExGeneralInfo
+|2022-01-11 01:55:40,918|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 201, in ExGeneralInfo
+|2022-01-11 01:55:41,053|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 224, in ExGeneralInfo
+|2022-01-11 01:55:41,053|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 167, in ExGeneralInfo
+|2022-01-11 01:55:41,171|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 178, in ExGeneralInfo
+|2022-01-11 01:55:41,171|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-11 01:55:46,558|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 164, in ExGeneralInfo
+|2022-01-11 01:55:46,558|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 113, in ExGeneralInfo
+|2022-01-11 01:55:46,558|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 121, in ExGeneralInfo
+|2022-01-11 01:55:46,558|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 146, in ExGeneralInfo
+|2022-01-11 01:55:46,813|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 152, in ExGeneralInfo
+|2022-01-11 20:31:57,780|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 195, in ExGeneralInfo
+|2022-01-11 20:31:57,780|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 273, in ExGeneralInfo
+|2022-01-11 20:31:58,361|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 324, in ExGeneralInfo
+|2022-01-11 20:32:00,705|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 198, in ExGeneralInfo
+|2022-01-11 20:32:00,705|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 201, in ExGeneralInfo
+|2022-01-11 20:32:00,851|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 224, in ExGeneralInfo
+|2022-01-11 20:32:00,851|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 167, in ExGeneralInfo
+|2022-01-11 20:32:00,923|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 178, in ExGeneralInfo
+|2022-01-11 20:32:00,923|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-11 20:35:25,295|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 195, in ExGeneralInfo
+|2022-01-11 20:35:25,295|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 273, in ExGeneralInfo
+|2022-01-11 20:35:25,833|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 324, in ExGeneralInfo
+|2022-01-11 20:35:28,304|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 198, in ExGeneralInfo
+|2022-01-11 20:35:28,304|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 201, in ExGeneralInfo
+|2022-01-11 20:35:28,433|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 224, in ExGeneralInfo
+|2022-01-11 20:35:28,433|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 167, in ExGeneralInfo
+|2022-01-11 20:35:28,524|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 178, in ExGeneralInfo
+|2022-01-11 20:35:28,524|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-11 20:39:15,649|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 197, in ExGeneralInfo
+|2022-01-11 20:39:15,649|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 275, in ExGeneralInfo
+|2022-01-11 20:39:16,091|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 326, in ExGeneralInfo
+|2022-01-11 20:39:18,424|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 200, in ExGeneralInfo
+|2022-01-11 20:39:18,424|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 203, in ExGeneralInfo
+|2022-01-11 20:39:18,626|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 226, in ExGeneralInfo
+|2022-01-11 20:39:18,627|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 169, in ExGeneralInfo
+|2022-01-11 20:39:18,700|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 180, in ExGeneralInfo
+|2022-01-11 20:39:18,700|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-11 20:39:26,347|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 166, in ExGeneralInfo
+|2022-01-11 20:39:26,347|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 113, in ExGeneralInfo
+|2022-01-11 20:39:26,348|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 121, in ExGeneralInfo
+|2022-01-11 20:39:26,348|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 146, in ExGeneralInfo
+|2022-01-11 20:39:26,535|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 152, in ExGeneralInfo
+|2022-01-11 22:03:35,495|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 197, in ExGeneralInfo
+|2022-01-11 22:03:35,495|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 275, in ExGeneralInfo
+|2022-01-11 22:03:36,028|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 326, in ExGeneralInfo
+|2022-01-11 22:03:38,446|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 200, in ExGeneralInfo
+|2022-01-11 22:03:38,446|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 203, in ExGeneralInfo
+|2022-01-11 22:03:38,591|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 226, in ExGeneralInfo
+|2022-01-11 22:03:38,592|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 169, in ExGeneralInfo
+|2022-01-11 22:03:38,673|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 180, in ExGeneralInfo
+|2022-01-11 22:03:38,674|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 155, in ExGeneralInfo
+|2022-01-11 22:03:44,919|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 166, in ExGeneralInfo
+|2022-01-11 22:03:44,919|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 113, in ExGeneralInfo
+|2022-01-11 22:03:44,919|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 121, in ExGeneralInfo
+|2022-01-11 22:03:44,919|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 146, in ExGeneralInfo
+|2022-01-11 22:03:45,230|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 152, in ExGeneralInfo

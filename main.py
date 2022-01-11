@@ -5,6 +5,7 @@ from data.MyDataManager import MyDataManager
 from selfLib.UpClient import UpClient
 from binance import AsyncClient as BnClient
 from ui.MyGuiManager import MyGuiManager
+from ui.MyLogger import MyLogger
 from work.OrderManager import OrderManager
 from work.TranferMoney import TransferMoney
 
@@ -17,6 +18,9 @@ async def main():
     configKeys = (await MyConfigManager.getIns()).getConfig('configKeys')
     upCli = UpClient(access=configKeys['upbit']['api_key'], secret=configKeys['upbit']['secret_key'])
     bnCli = await BnClient.create(configKeys['binance']['api_key'], configKeys['binance']['secret_key'])
+
+    myLogger = await MyLogger.createIns()
+    print(myLogger)
 
     # layer 0.5
     dataManager = await MyDataManager.createIns(upCli=upCli, bnCli=bnCli)

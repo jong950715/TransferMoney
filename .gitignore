@@ -1,2 +1,4 @@
 /config/config_keys.ini
 /venv
+/work/TransferMoney.pickle
+*.pickle

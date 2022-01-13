@@ -1,7 +1,8 @@
 import asyncio
 from decimal import Decimal
 
-from aiopyupbit import UpbitError
+from definitions import getRootDir
+from selfLib.aiopyupbit import UpbitError
 from binance.exceptions import BinanceAPIException
 
 from common.SingleTonAsyncInit import SingleTonAsyncInit
@@ -10,10 +11,13 @@ from data.ExGeneralInfo import ExGeneralInfo
 from selfLib.UpClient import UpClient
 from binance import AsyncClient as BnClient
 
+from work.CheckPointManager import CheckPointManager
 from work.Order import FtOrder, SpOrder, UpOrder
 
+OM_PICKLE_FILE = '{0}/work/zOrderManager.pickle'.format(getRootDir())
 
-class OrderManager(SingleTonAsyncInit):
+
+class OrderManager(SingleTonAsyncInit, CheckPointManager):
     async def _asyncInit(self, upCli: UpClient, bnCli: BnClient, exInfo):
         self.upCli = upCli
         self.bnCli = bnCli
@@ -24,11 +28,14 @@ class OrderManager(SingleTonAsyncInit):
 
         self.ordersToBeCanceled = []
 
+        self._initPickle(OM_PICKLE_FILE, ['ordersToBeCanceled'])
+
     async def submitOrderBatch(self, orderList):
         tasks = []
         for orderData in orderList:
             tasks.append(createTask(self.submitOrder(orderData)))
-        await asyncio.wait(tasks)
+        if tasks:
+            await asyncio.wait(tasks)
 
     async def submitOrder(self, orderData):
         # orderData = [ex, sym, price, qty]
@@ -48,6 +55,7 @@ class OrderManager(SingleTonAsyncInit):
                 self.ordersToBeCanceled.append([ex, res['orderId'], sym])
             elif ex == 'up':
                 self.ordersToBeCanceled.append([ex, res['uuid'], sym])
+        self.saveCheckPoint()
         # print("order 제출 테스토", orderData)
 
     async def cancelOrderBatch(self):
@@ -55,7 +63,9 @@ class OrderManager(SingleTonAsyncInit):
         for orderData in self.ordersToBeCanceled:
             tasks.append(createTask(self.cancelOrder(*orderData)))
         self.ordersToBeCanceled = []
-        await asyncio.wait(tasks)
+        self.saveCheckPoint()
+        if tasks:
+            await asyncio.wait(tasks)
 
     async def cancelOrder(self, ex, orderId, sym):
         try:
@@ -72,3 +82,6 @@ class OrderManager(SingleTonAsyncInit):
             pass
         except Exception as e:
             raise e
+
+    def done(self):
+        self.saveGoodExitPoint()

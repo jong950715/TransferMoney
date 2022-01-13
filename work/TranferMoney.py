@@ -1,4 +1,5 @@
 import asyncio
+import re
 from collections import defaultdict
 from decimal import Decimal
 from enum import Enum
@@ -8,13 +9,19 @@ from common.createTask import createTask
 from data.MyDataManager import MyDataManager
 from data.dataCommons import toDecimal, tickerToSymbol
 from definitions import getRootDir
+from selfLib.UpClient import UpClient
+from binance import AsyncClient as BnClient
+from selfLib.aiopyupbit import UpbitError
+from ui.MyLogger import MyLogger
 from work.CheckPointManager import CheckPointManager
 from work.OrderManager import OrderManager
+from work.WalletManager import WalletManager
+from work.Withdraw import NoToAddressError
 
 UPBIT_TOL_KRW = Decimal(50000)
 BINAN_TOL_USD = Decimal(50)
 
-TM_PICKLE_FILE = '{0}/work/TransferMoney.pickle'.format(getRootDir())
+TM_PICKLE_FILE = '{0}/work/zTransferMoney.pickle'.format(getRootDir())
 
 
 class TransferDir(Enum):
@@ -38,19 +45,20 @@ class TransferState(Enum):
 
 
 class TransferMoney(SingleTonAsyncInit, CheckPointManager):
-    async def _asyncInit(self, dataManager: MyDataManager, orderManager: OrderManager):
-        self.dataManger = dataManager
-        self.orderManager = orderManager
+    async def _asyncInit(self, dataManager: MyDataManager, upCli: UpClient, bnCli: BnClient):
+        self.dataManager = dataManager
+
+        self.orderManager = await OrderManager.createIns(upCli=upCli, bnCli=bnCli, exInfo=dataManager.getExInfo())
+        self.walletManager = await WalletManager.createIns(upCli=upCli, bnCli=bnCli,
+                                                           walletInfos=dataManager.getWalletInfo())
 
         self.runState = TransferState.PREPARING
 
         self.orderBooks = dataManager.getOrderBooks()
         self.balances = dataManager.getBalances()
+        # self.walletInfo = self.dataManager.getWalletInfo()
 
-        self._setPickleFile(TM_PICKLE_FILE)
-        self._setPickleList(['_dir', 'totalNotional', 'remainNotional',
-                             'buyingTickers', 'targetBalances', 'runState'])
-        self.checkUnPredictedExit()
+        self._initPickle(TM_PICKLE_FILE, ['_dir', 'totalNotional', 'remainNotional', 'buyingTickers', 'targetBalances', 'runState', 'withdrawTickers'])
 
         self.run()
 
@@ -74,7 +82,7 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
                 await self.runDone()
 
     async def runPreparing(self):
-        if self.dataManger:
+        if self.dataManager:
             self.runState = TransferState.STANDBY
 
     async def runStandby(self):
@@ -110,6 +118,7 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
 
         if self.isBuyingFinished():
             self.initTransferring()
+            self.orderManager.done()
 
     async def cancelAllOrders(self):
         await self.orderManager.cancelOrderBatch()
@@ -145,7 +154,7 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
         else:
             raise Exception('dir이 이상해..', self._dir)
 
-        await self.dataManger.updateBalances(tickers=self.buyingTickers)
+        await self.dataManager.updateBalances(tickers=self.buyingTickers)
         await self.cancelAllOrders()
 
         orderList = []
@@ -175,10 +184,11 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
             return self.balances[ex][ticker]
 
     def _getBestBidAskPrice(self, ex, sym, bidAsk):
-        if ex == 'up':
-            return Decimal(self.orderBooks[ex][sym][bidAsk][0][0])
-        elif ex == 'sp' or ex == 'ft':
-            return toDecimal(self.orderBooks[ex][sym][bidAsk][0][0])
+        return toDecimal(self.orderBooks[ex][sym][bidAsk][0][0])
+        # if ex == 'up':
+        #     return Decimal(self.orderBooks[ex][sym][bidAsk][0][0])
+        # elif ex == 'sp' or ex == 'ft':
+        #     return toDecimal(self.orderBooks[ex][sym][bidAsk][0][0])
 
     async def _runBuying(self):
         """
@@ -209,8 +219,8 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
         # KEYS1 = ['ticker', '_price', 'price', 'volume', 'upAsk', 'spBid', 'ftBid', 'upWithdraw', 'bnDeposit']
         # KEYS2 = ['ticker', '_price', 'price', 'volume', 'upBid', 'spAsk', 'ftAsk', 'bnWithdraw', 'upDeposit']
 
-        data = await self.dataManger.getUpToBnData(includedTickers=self.buyingTickers,
-                                                   remainNotional=self.remainNotional)
+        data = await self.dataManager.getUpToBnData(includedTickers=self.buyingTickers,
+                                                    remainNotional=self.remainNotional)
         data = data[0]
 
         ticker = data['ticker']
@@ -234,18 +244,6 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
         self.remainNotional -= qty * buyPrice
         self.buyingTickers.append(ticker)
         self.saveCheckPoint()
-
-    def _saveBuying(self):
-        """
-        피클링 목록
-        self.dir
-        self.totalNotional
-        self.remainNotional
-        self.buyingTickers
-        self.targetBalances
-        self.runState
-        """
-        pass
 
     def isBuyingFinished(self):
         # 탈출조건
@@ -311,10 +309,75 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
 
     def initTransferring(self):
         self.runState = TransferState.TRANSFERRING
+        # self.withdraws = []
+        self.withdrawTickers = list(self.buyingTickers)
         self.saveCheckPoint()
 
     async def runTransferring(self):
-        pass
+        await self._runTransferring()
+        await self.waitForTransferred()
+        self.initSelling()
+        """
+            해야할 일
+            돈 안보냈으면 보내고
+                - 지갑 밸리데이트 하고
+                - 업비트에 지갑 등록 안되어 있으면 하고 (등록해달라고 로그 띄우고)
+                - 돈 도착했는지 확인하고 (uuid랑 도착지 balance)
+
+            단계로 나눠 보면
+                - 돈 보내기 단계
+                    - 지갑 주소 검증
+                    - 출금
+                        - 최소 출금량
+                        - 최대 출금량
+                        - 수수료 고려 등
+                    - 에러나면?
+                        - 지갑 등록 해주세요 에러나면 메시지 띄우고 좀 쉬기
+
+                - 돈 보내지기 기다리기 단계
+                    - status 확인
+                    - balance 확인
+
+                - 그럼 끗
+        """
+
+    async def _runTransferring(self):
+        withdraws = []
+        # 출금 목록 만들기
+        for ticker in self.withdrawTickers:
+            qty = toDecimal(self.balances['up'][ticker])
+            withdraws.append(['up', ticker, qty])
+
+        # 제출하기
+        rets = await self.walletManager.submitWithdrawBatch(withdraws)
+
+        for ret in rets:
+            try:
+                await ret
+                ret.result()  # [fromEx, ticker, wId]
+                return  # 잘 되었으면 탈출
+            except UpbitError as e:
+                if e.name == 'withdraw_address_not_registered':
+                    MyLogger.getLogger().info('{0}의 업비트 출금주소를 등록해주세요.'.format(e.ticker))
+                elif e.name == 'withdraw_insufficient_balance' or e.name == 'withdraw_decimal_places_exceeded':
+                    raise Exception('로직 오류가 의심 됩니다.', e)
+
+            except NoToAddressError as e:
+                MyLogger.getLogger().info('{0}거래소의 {1}입금주소가 존재하지 않습니다. '
+                                          '발급 받아 주세요.'.format(e.ex, e.ticker))
+
+        # 위에서 return 못했으면 60초 대기 후 리커젼
+        await asyncio.sleep(60)
+        await self._runTransferring()
+
+    async def waitForTransferred(self):
+        isFin = await self.walletManager.isAllCompleted()
+        while not isFin:
+            isFin = await self.walletManager.isAllCompleted()
+            await asyncio.sleep(10)
+
+    def initSelling(self):
+        self.runState = TransferState.SELLING
 
     async def runSelling(self):
         pass
@@ -324,9 +387,6 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
 
     def getState(self):
         return self.runState
-
-    def order(self, *args):
-        print('order', args)
 
 
 async def main():

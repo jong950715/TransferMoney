@@ -2,6 +2,8 @@ import pickle
 from enum import Enum
 
 
+
+
 class ExitCode(Enum):
     RUNNING = 'running',
     GOOD = 'good'
@@ -10,7 +12,23 @@ class ExitCode(Enum):
 class CheckPointManager:
     """
     피클은 바이너리를 다루기때문에 속도가 갱장히 빠름빠름~
+
+    init에서
+    self._setPickleFile(TM_PICKLE_FILE)
+    self._setPickleList([])
+    self.checkUnPredictedExit()
+
+    이렇게 사용해주시고, (self._initPickle 로 대체)
+
+    각 포인트마다
+
+    중간에는
+    self.saveCheckPoint()
+
+    성공적인 종료는
+    self.saveGoodExitPoint()
     """
+
     def __init__(self):
         self.pickleList = []
         self.pickleFile = ''
@@ -25,9 +43,9 @@ class CheckPointManager:
         self._savePickle()
 
     def checkUnPredictedExit(self):
-        if self.isSuccessfulExit() == False:
+        if not self.isSuccessfulExit():
             self._loadPickle()
-        self.exitCode = ExitCode.RUNNING
+        self._setNone()
 
     def isSuccessfulExit(self):
         exitCode = self._getAttrInPickle('exitCode')
@@ -39,6 +57,17 @@ class CheckPointManager:
             return False  # 문제!! 동작중 의도치 않게 종료된 경우
 
         raise Exception('설계를 잘못했나? 올 수 없는 경로임.')
+
+    def _initPickle(self, pF, pL):
+        self._setPickleFile(pF)
+        self._setPickleList(pL)
+        self.checkUnPredictedExit()
+
+    def _setNone(self):
+        for var in self.pickleList:
+            if not hasattr(self, var):
+                setattr(self, var, None)
+        self.exitCode = ExitCode.RUNNING
 
     def _setPickleFile(self, pF):
         self.pickleFile = pF
@@ -118,8 +147,8 @@ def testCode():
     ins.task2()
     ins.pr()
 
-    ins.task3() # 여기 주석처리하면? 달라짐
-    ins.pr() #
+    ins.task3()  # 여기 주석처리하면? 달라짐
+    ins.pr()  #
 
     '''
     text1      text2
@@ -131,5 +160,24 @@ def testCode():
     '''
 
 
+def testCode2():
+    from work.TranferMoney import TM_PICKLE_FILE
+    from work.WalletManager import WM_PICKLE_FILE
+
+    #pickleFile = TM_PICKLE_FILE
+    pickleFile = WM_PICKLE_FILE
+    with open(pickleFile, 'rb') as f:
+        pickledData = pickle.loads(f.read())
+    print(pickledData)
+
+    del pickledData['submittedList'][1]
+
+    with open(pickleFile, 'wb') as f:
+        f.write(pickle.dumps(pickledData))
+
+
+
+
 if __name__ == '__main__':
-    testCode()
+    # testCode()
+    testCode2()

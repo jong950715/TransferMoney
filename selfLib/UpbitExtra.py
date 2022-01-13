@@ -1,5 +1,5 @@
-from aiopyupbit import Upbit
-from aiopyupbit.request_api import _send_get_request, _send_post_request, _send_delete_request, _call_public_api
+from selfLib.aiopyupbit import Upbit
+from selfLib.aiopyupbit.request_api import _send_get_request, _send_post_request, _send_delete_request, _call_public_api
 
 
 class UpbitExtra(Upbit):
@@ -47,8 +47,8 @@ class UpbitExtra(Upbit):
             url = "https://api.upbit.com/v1/trades/ticks"
             body, remain = await _call_public_api(url, market=symbol)
             return body[0]
-        except:
-            raise
+        except Exception as e:
+            raise e
 
     async def create_limit_order(self, symbol, side, price, quantity, contain_req: bool = False) -> tuple or dict:
         try:
@@ -63,3 +63,45 @@ class UpbitExtra(Upbit):
             return (body, remain) if contain_req else body
         except Exception as e:
             raise e
+
+    async def withdraw_coin(self,
+                            currency,
+                            amount,
+                            address,
+                            secondary_address=None,
+                            transaction_type: str = 'default',
+                            contain_req: bool = False) -> tuple or dict:
+        try:
+            url = "https://api.upbit.com/v1/withdraws/coin"
+            data = {"currency": currency,
+                    "amount": amount,
+                    "address": address,
+                    "transaction_type": transaction_type}
+            if secondary_address:
+                data["secondary_address"] = secondary_address
+            headers = await self._request_headers(data)
+            body, remain = await _send_post_request(url, headers=headers, data=data)
+            return (body, remain) if contain_req else body
+        except Exception as e:
+            raise e
+
+    async def generate_coin_address(self, ticker, contain_req: bool = False) -> tuple or dict:
+        try:
+            url = "https://api.upbit.com/v1/deposits/generate_coin_address"
+            data = {"currency": ticker
+                    }
+            headers = await self._request_headers(data)
+            body, remain = await _send_post_request(url, headers=headers, data=data)
+            return (body, remain) if contain_req else body
+        except Exception as e:
+            raise e
+
+    async def get_withdraw_orders(self, contain_req: bool = False) -> tuple or list:
+        try:
+            url = "https://api.upbit.com/v1/withdraws"
+            headers = await self._request_headers()
+            body, remain = await _send_get_request(url, headers=headers)
+            return (body, remain) if contain_req else body
+        except Exception as e:
+            raise e
+

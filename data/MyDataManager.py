@@ -102,7 +102,7 @@ class MyDataManager(SingleTonAsyncInit):
         for i, tic in enumerate(self.tickers):
             upSym = tickerToUpbitSymbol(tic)
             bnSym = tickerToBnSymbol(tic)
-            upAsk, bnSpBid, bnFtBid = Decimal(self.orderBooks['up'][upSym]['ask'][0][0]), toDecimal(
+            upAsk, bnSpBid, bnFtBid = toDecimal(self.orderBooks['up'][upSym]['ask'][0][0]), toDecimal(
                 self.orderBooks['sp'][bnSym]['bid'][0][0]), toDecimal(
                 self.orderBooks['ft'][bnSym]['bid'][0][0])
             upAskQty = Decimal(self.orderBooks['up'][upSym]['ask'][0][1])

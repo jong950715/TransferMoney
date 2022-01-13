@@ -1,7 +1,7 @@
 import asyncio
 from decimal import Decimal
 
-from aiopyupbit import UpbitError
+from selfLib.aiopyupbit import UpbitError
 from binance import AsyncClient as BnClient
 from binance.exceptions import BinanceAPIException
 
@@ -25,6 +25,9 @@ class BaseOrder:
         self.sym = sym
         self.price = price
         self.qty = qty
+
+        self.cli = self.__class__.cli
+        self.orderInfo = self.__class__.orderInfo
 
         self.loadInfos()
 
@@ -144,6 +147,31 @@ async def example():
     upCli = UpClient(access=configKeys['upbit']['api_key'], secret=configKeys['upbit']['secret_key'])
     bnCli = await BnClient.create(configKeys['binance']['api_key'], configKeys['binance']['secret_key'])
 
+    res = await upCli.get_withdraw_chance(ticker='SAND')
+    print(res)
+    return
+
+    res = await upCli.get_balances()
+    print(res)
+
+    res = await upCli.get_individual_withdraw_order(currency='EOS', uuid='9d3982f1-e790-4600-942c-8268c3d2901e')
+    print(res)
+    print(res['state'])
+
+    try:
+        res = await upCli.withdraw_coin(currency='EOS', amount=Decimal('1'), address='binancecleos',
+                                        secondary_address='100366452')
+        print(res['uuid'])
+    except UpbitError as e:
+        if e.name == 'withdraw_address_not_registered':
+            pass
+        if e.name == 'withdraw_insufficient_balance':
+            pass
+        if e.name == 'withdraw_decimal_places_exceeded':
+            pass
+        print(e.code)
+        print(e.name)
+
     # res = await upCli.create_limit_order(symbol='KRW-BTC', price='40000000',
     #                                      quantity='0.01', side='bid')
     # print(res)
@@ -156,7 +184,6 @@ async def example():
     # except UpbitError as e:
     #     print(e)
 
-
     #
     # res = await bnCli.futures_create_order(symbol='BTCUSDT', price='40001',
     #                                        quantity='0.01', side='BUY',
@@ -166,14 +193,14 @@ async def example():
     # res['orderId'] 40487413746
     # res['clientOrderId'] 'lCYzrzV9Q9PCPo1bD0uVTa'
     #
-    try:
-        res = await bnCli.cancel_order(symbol='BTCUSDT', orderId=40487413746)
-        print(res)
-    except BinanceAPIException as e:
-        print(e.message)
-        print(e.code)
-        if e.code == -2011:
-            print('yes')
+    # try:
+    #     res = await bnCli.cancel_order(symbol='BTCUSDT', orderId=40487413746)
+    #     print(res)
+    # except BinanceAPIException as e:
+    #     print(e.message)
+    #     print(e.code)
+    #     if e.code == -2011:
+    #         print('yes')
 
 
 if __name__ == "__main__":

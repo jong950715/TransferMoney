@@ -3,8 +3,11 @@
 # 지갑 등록해주세요~ 같은 메시지 필요할듯
 
 # balance 관련 view 업뎃 ㄱㄱ
+# GUI쪽 getUpToBnData 호출 관련도 업뎃 (cached로)
 
 # No float Yes Decimal
+
+
 
 
 

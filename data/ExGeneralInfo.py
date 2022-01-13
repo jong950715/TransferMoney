@@ -7,7 +7,7 @@ from data.configTable.ConfigTable import ConfigTable
 from data.dataCommons import *
 from binance import AsyncClient as BnClient
 from selfLib.UpClient import UpClient
-import aiopyupbit
+import selfLib.aiopyupbit
 import json
 from config.MyConfigManager import MyConfigManager
 from collections import defaultdict
@@ -103,8 +103,7 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
         return self.ExInfo
 
     def verifyAddress(self, ticker, address):
-        regex = re.compile(self.bnWalletInfo[ticker]['regex'])
-        if regex.match(address):
+        if re.match(self.bnWalletInfo[ticker]['regex'], address):
             return True
         else:
             return False
@@ -269,6 +268,8 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
             self.upWalletInfo[ticker]['withdrawMin'] = Decimal(r['withdraw_limit']['minimum'])
             if r['withdraw_limit']['onetime']:
                 self.upWalletInfo[ticker]['withdrawMax'] = Decimal(r['withdraw_limit']['onetime'])
+            else:
+                self.upWalletInfo[ticker]['withdrawMax'] = Decimal('1000000000')
             self.upWalletInfo[ticker]['withdrawDecimal'] = Decimal('10') ** (-1 * Decimal(r['withdraw_limit']['fixed']))
 
     async def updateTickers(self):

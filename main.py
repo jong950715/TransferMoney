@@ -26,9 +26,7 @@ async def main():
     dataManager = await MyDataManager.createIns(upCli=upCli, bnCli=bnCli)
     myGui.setDataManager(dataManager)
 
-    orderManager = await OrderManager.createIns(upCli=upCli, bnCli=bnCli, exInfo=dataManager.getExInfo())
-
-    transferMoney = await TransferMoney.createIns(dataManager, orderManager)
+    transferMoney = await TransferMoney.createIns(dataManager, upCli=upCli, bnCli=bnCli)
     myGui.setTransferMoney(transferMoney)
 
     while True:

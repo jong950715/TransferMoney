@@ -9,6 +9,7 @@ from config.MyConfigManager import MyConfigManager
 from selfLib.UpClient import UpClient
 
 from data.dataCommons import getUpbitPriceStep
+from ui.MyLogger import MyLogger
 
 
 class BaseOrder:
@@ -45,7 +46,7 @@ class BaseOrder:
         # 가격 step, 수량 step에 대해 반올림 --> 주문금액, 주문량 나옴
         # 최소 주문금액, 최소 주문량에 대해는 validate
         self.price = self.priceStep * round(self.price / self.priceStep)
-        self.qty = self.qtyStep * round(self.qty / self.qtyStep)
+        self.qty = self.qtyStep * round(self.qty // self.qtyStep) # 수량은 반올림아니고 내림으로
         return self.validate()
 
     def validate(self):
@@ -86,7 +87,7 @@ class BaseOrder:
                 '\t p : %f'
                 '\t q : %f' % (self.sym, self.price, self.qty))
 
-        print(msg)
+        MyLogger.getLogger().info(msg)
 
     async def execute(self):
         # 검증

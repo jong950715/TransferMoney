@@ -1,6 +1,6 @@
 class MyList(list):
     KEYS1 = ['ticker', '_price', 'price', 'volume', 'upAsk', 'spBid', 'ftBid', 'upWithdraw', 'bnDeposit']
-    KEYS2 = ['ticker', '_price', 'price', 'volume', 'upBid', 'spAsk', 'ftAsk', 'bnWithdraw', 'upDeposit']
+    KEYS2 = ['ticker', '_price', 'price', 'volume', 'upBid', 'spAsk', 'ftBid', 'bnWithdraw', 'upDeposit']
     LEN = len(KEYS1)
     TO_INDEX = dict()
     for i, (key1, key2) in enumerate(zip(KEYS1, KEYS2)):
@@ -22,6 +22,13 @@ class MyList(list):
     def __setitem__(self, key, value):
         super(MyList, self).__setitem__(self.getIndex(key), value)
 
+    def deepCopy(self):
+        res = self.__class__()
+        for i, x in enumerate(self):
+            res[i] = x
+
+        return res
+
     def getIndex(self, key):
         if isinstance(key, int):
             return key
@@ -33,7 +40,8 @@ class MyList(list):
 def test():
     ml = MyList()
 
-    for i, k in enumerate(['ticker', '_price', 'price', 'volume', 'upAsk', 'spBid', 'ftBid', 'upWithdraw', 'bnDeposit']):
+    for i, k in enumerate(
+            ['ticker', '_price', 'price', 'volume', 'upAsk', 'spBid', 'ftBid', 'upWithdraw', 'bnDeposit']):
         ml[k] = i
     print(ml)
 

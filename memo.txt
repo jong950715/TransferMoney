@@ -1,22 +1,29 @@
-# 업빗 입금 wallet 주소 확인 필요
-# 업/바 입출금 wallet 화이트리스팅 확인 필요
-# 지갑 등록해주세요~ 같은 메시지 필요할듯
+# 업빗 입금 wallet 주소 error catch 필요
+# 주소 발급에 오류 있는듯..?
 
-# balance 관련 view 업뎃 ㄱㄱ
-# GUI쪽 getUpToBnData 호출 관련도 업뎃 (cached로)
+# 퓨쳐스 수량을 업비트에 추종하게끔 하면 좀 더 좋은 값 받을 수 있을듯
+
+# buying에서 한번에 1000만원 정도 제한 하면 좋을듯
+# 현선 제한도
 
 # No float Yes Decimal
-
-
-
-
 
 # krw, usdt 잔고보고 verifying
 # 잔고 딸릴때 에러 코드 확인하고 try except 적용하기
 
+# 피클 목록 점검
+
+# receipt 에 출금 수수료 포함하기
+# receipt 개선 필요할듯. 예를 들어 팔고 산 수량이 다른거 같은거 보정해줘야지
+
+# 로그좀 싹 넣자
+
 # 메일주소 백상찬 바꾸기!!
 
-# view를 위해서 balance 적어도 1초에 1번 같은 로직 있으면 좋을듯
+# controlWindow Font Size
+# balance 관련 view 업뎃 ㄱㄱ (업뎃 분리 필요)
+
+# view는 준비중인데 control은 준비완료
 ==========
 
 

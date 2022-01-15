@@ -3,9 +3,11 @@ from tkinter import ttk
 import tkinter as tk
 
 from selfLib.MyList import MyList
-from work.TranferMoney import TransferState
+from work.Enums import TransferDir
 
 MAX_TABLE_LINES = 10
+PREPARING_WORD = '준비중'
+PREPARING_DATA = [[PREPARING_WORD]]
 
 
 class MyViewWindow:
@@ -19,12 +21,41 @@ class MyViewWindow:
         formatter = ['{}', '{:.6g}', '{:.6g}', '{:.6g}', '{:.6g}', '{:.6g}', '{:.6g}', '{}', '{}']
         self.widgets['treeViewUpToBn'] = MyTreeView(self.window, columns=_cols, show='headings', formatter=formatter)
 
+        _cols = ['ticker', 'krw/usdt', 'krw/usdt*', 'volume', 'sp', 'up', 'ft', 'upWit', 'bnDep']
+        formatter = ['{}', '{:.6g}', '{:.6g}', '{:.6g}', '{:.6g}', '{:.6g}', '{:.6g}', '{}', '{}']
+        self.widgets['treeViewBnToUp'] = MyTreeView(self.window, columns=_cols, show='headings', formatter=formatter)
+
+        self.transferDir = TransferDir.UpToBn
+        self.widgets['btnToggleDir'] = tk.Button(self.window, text=self.transferDir)
+        self.widgets['btnToggleDir'].pack(side='right')
+        self.widgets['btnToggleDir'].config(command=self._toggleDir)
+
     def setDataUpToBn(self, data):
         # data[i] = MyList
         self.widgets['treeViewUpToBn'].updateTreeView(data)
 
     def setDataBnToUp(self, data):
-        self.widgets['treeViewBnToUp'].updateTreeView(data)
+        if data == PREPARING_DATA:
+            self.widgets['treeViewBnToUp'].updateTreeView(data)
+            return
+
+        l = MAX_TABLE_LINES if len(data) > MAX_TABLE_LINES else len(data)
+        try:
+            for i in range(l):
+                data[i]['price'] = Decimal(1) / data[i]['price']
+                data[i]['_price'] = Decimal(1) / data[i]['_price']
+            self.widgets['treeViewBnToUp'].updateTreeView(data)
+        except Exception as e:
+            print(e)
+
+    def _toggleDir(self):
+        if self.transferDir == TransferDir.UpToBn:
+            self.transferDir = TransferDir.BnToUp
+        elif self.transferDir == TransferDir.BnToUp:
+            self.transferDir = TransferDir.UpToBn
+
+        self.widgets['btnToggleDir'].config(text=str(self.transferDir))
+        # ????.setTransDir()
 
 
 class MyTreeView(ttk.Treeview):

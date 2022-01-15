@@ -1,7 +1,10 @@
 import asyncio
+from datetime import datetime
 from decimal import Decimal
 
 from common.SingleTonAsyncInit import SingleTonAsyncInit
+from config.MyConfigManager import MyConfigManager
+from data.dataCommons import symbolToTicker, toDecimal, tickerToSymbol
 from definitions import getRootDir
 from selfLib.UpClient import UpClient
 from binance import AsyncClient as BnClient
@@ -15,13 +18,14 @@ WM_PICKLE_FILE = '{0}/work/zWalletManager.pickle'.format(getRootDir())
 
 
 class WalletManager(SingleTonAsyncInit, CheckPointManager):
-    async def _asyncInit(self, upCli: UpClient, bnCli: BnClient, walletInfos):
+    async def _asyncInit(self, upCli: UpClient, bnCli: BnClient, dataManager):
         self.upCli = upCli
         self.bnCli = bnCli
+        self.dataManager = dataManager
 
-        Withdraw.initClass(upCli, bnCli, walletInfos)
+        Withdraw.initClass(upCli, bnCli, dataManager.getWalletInfo())
 
-        self.submittedList = []  # [[ex, id]]
+        self.submittedList = []  # [['up', res['uuid'], self.ticker, self.qty]]
 
         self._initPickle(WM_PICKLE_FILE,
                          ['submittedList'])
@@ -33,17 +37,18 @@ class WalletManager(SingleTonAsyncInit, CheckPointManager):
 
     async def submitWithdraw(self, fromEx, ticker, qty: Decimal):
         w = Withdraw(fromEx, ticker, qty)
-        wId = await w.do()
-        if wId:
-            self.submittedList.append([fromEx, ticker, wId])
+        submitted = await w.do()  # ['up', res['uuid'], self.ticker, self.qty]
+        if submitted:
+            MyLogger.getLogger().info('{0}에서 {1}의 {2}개 출금요청이 제출되었습니다.'.format(fromEx, ticker, qty))
+            self.submittedList.append(submitted)
         self.saveCheckPoint()
-        return [fromEx, ticker, wId]
+        return submitted
 
     async def isAllCompleted(self):
         self.upWithdraws = await self.upCli.get_withdraw_orders()
         self.bnWithdraws = await self.bnCli.get_withdraw_history()
 
-        for (fromEx, ticker, wId) in self.submittedList:
+        for (fromEx, wId, ticker, qty) in self.submittedList:
             if fromEx == 'up':
                 isFin = self._isFinishedUpId(wId)
             elif fromEx == 'bn':
@@ -102,5 +107,107 @@ class WalletManager(SingleTonAsyncInit, CheckPointManager):
         5:Failure
         '''
 
+    def getSubmittedList(self):
+        return self.submittedList
+
     def done(self):
         self.saveGoodExitPoint()
+
+    async def logReceipt(self, fromTime, tickers):
+        krw = 0
+        usdt = 0
+
+        for ticker in tickers:
+            res = await self.bnCli.get_all_orders(symbol=tickerToSymbol('bn', ticker))
+            for r in res[::-1]:
+                if int(r['time']) // 1000 < fromTime:
+                    break
+                q = toDecimal(r['executedQty'])
+                p = toDecimal(r['price'])
+
+                if r['side'] == 'BUY':
+                    q = -q
+                elif r['side'] == 'SELL':
+                    pass
+                else:
+                    raise Exception('코드 잘못 짜신듯^^')
+
+                _usdt = p * q
+                _usdt -= abs(_usdt) * Decimal('0.001')
+                usdt += _usdt
+
+        for ticker in tickers:
+            res = await self.bnCli.futures_get_all_orders(symbol=tickerToSymbol('bn', ticker))
+            for r in res[::-1]:
+                if int(r['time']) // 1000 < fromTime:
+                    break
+                q = toDecimal(r['executedQty'])
+                p = toDecimal(r['price'])
+
+                if r['side'] == 'BUY':
+                    q = -q
+                elif r['side'] == 'SELL':
+                    pass
+                else:
+                    raise Exception('코드 잘못 짜신듯^^')
+
+                _usdt = p * q
+                _usdt -= abs(_usdt) * Decimal('0.0004')
+                usdt += _usdt
+
+        upReceipts = [await self.upCli.get_order(states=['done']),
+                      await self.upCli.get_order(states=['cancel']),
+                      await self.upCli.get_order(states=['wait']),
+                      await self.upCli.get_order(states=['watch'])]
+
+        upRes = []
+        for receipt in upReceipts:
+            for r in receipt:
+                t = datetime.strptime(r['created_at'], "%Y-%m-%dT%H:%M:%S%z").timestamp()
+                if t < fromTime:
+                    break
+                if symbolToTicker('up', r['market']) not in tickers:
+                    continue
+                upRes.append(r)
+
+        for r in upRes:
+            qty = toDecimal(r['executed_volume'])
+            fee = toDecimal(r['paid_fee'])
+            if r['side'] == 'ask':
+                pass
+            elif r['side'] == 'bid':
+                qty = -qty
+            else:
+                raise Exception('코드 잘못짜신듯')
+
+            krw += qty * toDecimal(r['price']) - fee
+
+        MyLogger.getLogger().info('usdt : {0}'.format(usdt))
+        MyLogger.getLogger().info('krw : {0}'.format(krw))
+        MyLogger.getLogger().info('krw/usdt : {0}'.format(krw / usdt))
+
+    async def issueDepositAddress(self, ticker):
+        await self.upCli.generate_coin_address(ticker=ticker)
+        await asyncio.sleep(5)
+        await self.dataManager.exInfo.updateUpbitAddress()
+
+
+
+# WalletManager
+
+async def example():
+    myLogger = await MyLogger.createIns()
+
+    await MyConfigManager.getIns()
+    configKeys = MyConfigManager.getInsSync().getConfig('configKeys')
+
+    upCli = UpClient(access=configKeys['upbit']['api_key'], secret=configKeys['upbit']['secret_key'])
+    bnCli = await BnClient.create(configKeys['binance']['api_key'], configKeys['binance']['secret_key'])
+
+    wm = await WalletManager.getIns(upCli, bnCli, None)
+
+    await wm.logReceipt(1642178280, ['QTUM'])
+
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(example())

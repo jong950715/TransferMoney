@@ -1,6 +1,7 @@
 import asyncio
 import re
 from decimal import Decimal
+from datetime import datetime
 
 from config.MyConfigManager import MyConfigManager
 from selfLib.UpClient import UpClient
@@ -55,7 +56,7 @@ class Withdraw:
             self.addr1 = self.walletInfos[self.toEx][self.ticker]['address1']
             self.addr2 = self.walletInfos[self.toEx][self.ticker]['address2']
         except KeyError as e:
-            if (e == 'address1' or e == 'address2') and (self.toEx == 'up'):
+            if self.toEx == 'up':
                 raise NoToAddressError(self.toEx, self.ticker)
             raise Exception(self.toEx, self.ticker, e)
         except Exception as e:
@@ -74,7 +75,7 @@ class Withdraw:
         """
         최대값, 최소값, step, address, 수수료
         """
-        self.qty = (self.qty//self.qtyStep) * self.qtyStep
+        self.qty = (self.qty // self.qtyStep) * self.qtyStep
 
         if self.fromEx == 'up':
             self.qty -= self.fee
@@ -99,10 +100,12 @@ class Withdraw:
         except Exception as e:
             raise e
 
-        return res['uuid']
+        return ['up', res['uuid'], self.ticker, self.qty]  # 수수료 적용된 qty임!!
 
     async def _bnWithdraw(self):
-        pass
+        res = await self.bnCli.withdraw(coin=self.ticker, address=self.addr1,
+                                        addressTag=self.addr2, amount=self.qty)
+        return ['bn', res['id'], self.ticker, self.qty-self.fee]
 
 
 async def example():
@@ -112,32 +115,55 @@ async def example():
     upCli = UpClient(access=configKeys['upbit']['api_key'], secret=configKeys['upbit']['secret_key'])
     bnCli = await BnClient.create(configKeys['binance']['api_key'], configKeys['binance']['secret_key'])
 
-    ticker = 'EOS'
-    qty = Decimal('0.2')
-
-    res = await upCli.generate_coin_address(ticker=ticker)
-    print(res)
-
-    res = await upCli.get_deposit_addresses()
-    print(res)
-    for r in res:
-        if r['currency'] == ticker:
-            addr1 = r['deposit_address']
-            addr2 = r['secondary_address']
-            break
+    # ticker = 'EOS'
+    # qty = Decimal('0.2')
+    #
+    # res = await upCli.get_order(states=['done'])
+    # print(res)
+    #
+    # start = datetime.strptime('2022-01-13T20:50:28+09:00', "%Y-%m-%dT%H:%M:%S%z").timestamp()
+    # _res = []
+    # for r in res:
+    #     t = datetime.strptime(r['created_at'], "%Y-%m-%dT%H:%M:%S%z").timestamp()
+    #     if t < start:
+    #         break
+    #     _res.append(r)
+    #
+    # print(_res)
+    #
+    #
+    # res['side']
+    # res['executed_volume']
+    # res['price']
+    # res['paid_fee']
+    # res['created_at'] # '2022-01-13T21:26:28+09:00'
+    #
+    # return
+    #
+    # res = await upCli.generate_coin_address(ticker=ticker)
+    # print(res)
+    #
+    # res = await upCli.get_deposit_addresses()
+    # print(res)
+    # for r in res:
+    #     if r['currency'] == ticker:
+    #         addr1 = r['deposit_address']
+    #         addr2 = r['secondary_address']
+    #         break
 
     # res = await bnCli.withdraw(coin=ticker, address = addr1, addressTag=addr2, amount=qty, withdrawOrderId='merong378')
     # print(res['id'])
 
-    #res = await bnCli.get_withdraw_history(withdrawOrderId = 'merong378')
-    res = await bnCli.get_withdraw_history()
-    print(res)
+    # res = await bnCli.get_withdraw_history(withdrawOrderId = 'merong378')
 
-    res = await upCli.get_withdraw_orders()
-    print(res)
+    # res = await bnCli.get_withdraw_history()
+    # print(res)
+    #
+    # res = await upCli.get_withdraw_orders()
+    # print(res)
 
-    #'62f85fd002744121bf42e8779d1a9f94'
-    #'41da7636fb26486d92a734ed174254b8'
+    # '62f85fd002744121bf42e8779d1a9f94'
+    # '41da7636fb26486d92a734ed174254b8'
 
     # res = await upCli.get_withdraw_chance(ticker='SAND')
     # print(res)

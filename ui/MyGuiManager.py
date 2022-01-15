@@ -8,8 +8,9 @@ from common.createTask import createTask, RUNNING_FLAG
 from data.MyDataManager import MyDataManager
 from data.dataCommons import tickerToUpbitSymbol, tickerToBnSymbol
 from ui.src.MyControlWindow import MyControlWindow
-from ui.src.MyViewWindow import MyViewWindow
-from work.TranferMoney import TransferMoney, TransferState, TransferDir
+from ui.src.MyViewWindow import MyViewWindow, PREPARING_DATA, PREPARING_WORD
+from work.Enums import TransferDir, TransferState
+from work.TranferMoney import TransferMoney
 
 
 class MyGuiManager(SingleTonAsyncInit):
@@ -38,29 +39,23 @@ class MyGuiManager(SingleTonAsyncInit):
         self._initControl()
 
     def _initControl(self):
-        self.transferDir = TransferDir.UpToBn
-        self.controlWindow.widgets['btnToggleDir'].config(command=self._toggleDir)
-        self.controlWindow.widgets['btnUpToBn'].config(command=self._startTransfer)
+        self.controlWindow.widgets['btnUpToBn'].config(command=self._startUpToBn)
+        self.controlWindow.widgets['btnBnToUp'].config(command=self._startBnToUp)
 
-    def _startTransfer(self):
+    def _startUpToBn(self):
         notional = Decimal(self.controlWindow.widgets['entryKrw'].get())
-        self.transferMoney.startTransfer(_dir=self.transferDir, notional=notional)
+        self.transferMoney.startTransfer(_dir=TransferDir.UpToBn, notional=notional)
 
-    def _toggleDir(self):
-        if self.transferDir == TransferDir.UpToBn:
-            self.transferDir = TransferDir.BnToUp
-        elif self.transferDir == TransferDir.BnToUp:
-            self.transferDir = TransferDir.UpToBn
+    def _startBnToUp(self):
+        notional = Decimal(self.controlWindow.widgets['entryUsdt'].get())
+        self.transferMoney.startTransfer(_dir=TransferDir.BnToUp, notional=notional)
 
-        self.controlWindow.widgets['btnToggleDir'].config(text=str(self.transferDir))
-        # ????.setTransDir()
-
-    async def getUpToBnData(self):
+    def getDataByDir(self, _dir):
         # return [['ticker', Decimal('1234.5678'), Decimal('1234.5678'), Decimal('1234.5678'), Decimal('80000000'), Decimal('0.00012345678'), Decimal('0.00012345678'), 'upWit', 'bnDep']] * 5
         if self.dataManager:
-            return await self.dataManager.getUpToBnData()
+            return self.dataManager.getDataByDirCached(_dir)
         else:
-            return [['준비중']]
+            return PREPARING_DATA
 
     async def updateGui(self):
         await self.updateView()
@@ -68,7 +63,18 @@ class MyGuiManager(SingleTonAsyncInit):
         self.root.update()
 
     async def updateView(self):
-        self.viewWindow.setDataUpToBn(await self.getUpToBnData())
+        u2b = self.getDataByDir(TransferDir.UpToBn)
+        b2u = self.getDataByDir(TransferDir.BnToUp)
+
+        if u2b[0][0] == PREPARING_WORD or b2u[0][0] == PREPARING_WORD:
+            _u2b = u2b
+            _b2u = b2u
+        else:
+            _u2b = [line.deepCopy() for line in u2b]
+            _b2u = [line.deepCopy() for line in b2u]
+
+        self.viewWindow.setDataUpToBn(_u2b)
+        self.viewWindow.setDataBnToUp(_b2u)
 
     async def updateControl(self):
         if self.transferMoney:

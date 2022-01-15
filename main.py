@@ -20,7 +20,6 @@ async def main():
     bnCli = await BnClient.create(configKeys['binance']['api_key'], configKeys['binance']['secret_key'])
 
     myLogger = await MyLogger.createIns()
-    print(myLogger)
 
     # layer 0.5
     dataManager = await MyDataManager.createIns(upCli=upCli, bnCli=bnCli)

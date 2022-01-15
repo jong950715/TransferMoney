@@ -1,3 +1,5 @@
+import re
+
 from selfLib.aiopyupbit import Upbit
 from selfLib.aiopyupbit.request_api import _send_get_request, _send_post_request, _send_delete_request, _call_public_api
 
@@ -105,3 +107,22 @@ class UpbitExtra(Upbit):
         except Exception as e:
             raise e
 
+    async def get_order(self,
+                        ticker=None,
+                        uuids=None,
+                        states=None,
+                        contain_req: bool = False) -> tuple or list:
+
+        if states is None:
+            states = ['wait']
+
+        url = "https://api.upbit.com/v1/orders"
+        data = {'states': states,
+                'order_by': 'desc'}
+        if ticker:
+            data['market'] = ticker
+        if uuids:
+            data['uuids'] = uuids
+        headers = await self._request_headers(data)
+        body, remain = await _send_get_request(url, headers=headers, data=data)
+        return (body, remain) if contain_req else body

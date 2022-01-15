@@ -8,7 +8,7 @@ from config.MyConfigManager import MyConfigManager
 from binance import AsyncClient as BnClient
 
 from data.BalanceManager import BalanceManager
-from data.dataCommons import tickerToUpbitSymbol, tickerToBnSymbol, toDecimal
+from data.dataCommons import tickerToUpbitSymbol, tickerToBnSymbol, toDecimal, tickerToSymbol
 from selfLib.MyList import MyList
 from selfLib.UpClient import UpClient
 
@@ -17,8 +17,9 @@ from data.BnSpWebSocket import BnSpWebSocket
 from data.ExGeneralInfo import ExGeneralInfo
 from data.UpWebSocket import UpWebSocket
 from ui.MyLogger import MyLogger
+from work.Enums import TransferDir
 
-BIG_FLOAT_NUMBER = float('inf')
+BIG_DECIMAL_NUMBER = Decimal('inf')
 
 
 class MyDataManager(SingleTonAsyncInit):
@@ -44,6 +45,12 @@ class MyDataManager(SingleTonAsyncInit):
         self.balanceManager = await BalanceManager.createIns(upCli=self.upCli, bnCli=self.bnCli)
 
         self.upToBnDataCache = [['준비중']]
+        self.dataCache = {TransferDir.UpToBn: [['준비중']],
+                          TransferDir.BnToUp: [['준비중']]}
+
+        self.cnt = {TransferDir.UpToBn: 0,
+                    TransferDir.BnToUp: 0
+                    }
 
         self.orderBooks = self._getOrderBook()
 
@@ -87,54 +94,77 @@ class MyDataManager(SingleTonAsyncInit):
     def getUpToBnDataCached(self):
         return self.upToBnDataCache
 
-    async def getUpToBnData(self, includedTickers=[], remainNotional=None):
-        """
-        데이터프레임을 인덱스로 관리하면 실수가능성이 높은것 같은데
-        1. list-dict 쓴다.
-        2. 자체 데이터프레임을 만든다. (문자->인덱스 변환해주는)
+    async def getDataByDir(self, _dir, includedTickers=None, remainNotional=None):
+        if includedTickers is None:
+            includedTickers = []
 
-        2번 ㄱㄱ 해서 key를 문자나 int나 관계 없게하면 view에서도 쓰기 편함
-        """
+        if _dir == TransferDir.UpToBn:
+            fromEx = 'up'
+            toEx = 'sp'
+            hedgeEx = 'ft'
+
+            witEx = 'up'
+            depEx = 'bn'
+        elif _dir == TransferDir.BnToUp:
+            fromEx = 'sp'
+            toEx = 'up'
+            hedgeEx = 'ft'
+
+            witEx = 'bn'
+            depEx = 'up'
+        else:
+            raise Exception('잘몬댐~', _dir)
+
         await self.awaitOrderBookUpdates()
         # ticker, krw/usdt, krw/usdt*, Volume, Upbit, bnSp, bnFt, upWithdraw, bnDeposit
-        # key : ticker, _price, price, volume, upAsk, spBid, ftBid, upWithdraw, bnDeposit
+        # KEYS1 = ['ticker', '_price', 'price', 'volume', 'upAsk', 'spBid', 'ftBid', 'upWithdraw', 'bnDeposit']
+        # KEYS2 = ['ticker', '_price', 'price', 'volume', 'upBid', 'spAsk', 'ftBid', 'bnWithdraw', 'upDeposit']
         res = [MyList() for _ in range(len(self.tickers))]
         for i, tic in enumerate(self.tickers):
-            upSym = tickerToUpbitSymbol(tic)
-            bnSym = tickerToBnSymbol(tic)
-            upAsk, bnSpBid, bnFtBid = toDecimal(self.orderBooks['up'][upSym]['ask'][0][0]), toDecimal(
-                self.orderBooks['sp'][bnSym]['bid'][0][0]), toDecimal(
-                self.orderBooks['ft'][bnSym]['bid'][0][0])
-            upAskQty = Decimal(self.orderBooks['up'][upSym]['ask'][0][1])
-            remainQty = remainNotional / upAsk if remainNotional != None else upAskQty
+            fromSym = tickerToSymbol(fromEx, tic)
+            toSym = tickerToSymbol(toEx, tic)
+            hedgeSym = tickerToSymbol(hedgeEx, tic)
+
+            fromAsk = toDecimal(self.orderBooks[fromEx][fromSym]['ask'][0][0])
+            toBid = toDecimal(self.orderBooks[toEx][toSym]['bid'][0][0])
+            hedgeBid = toDecimal(self.orderBooks[hedgeEx][hedgeSym]['bid'][0][0])
+
+            fromAskQty = Decimal(self.orderBooks[fromEx][fromSym]['ask'][0][1])
+            remainQty = remainNotional / fromAsk if remainNotional != None else fromAskQty
 
             '''###-###'''
 
             res[i]['ticker'] = tic
-            res[i]['_price'] = upAsk / bnSpBid
+            res[i]['_price'] = fromAsk / toBid
             if tic in includedTickers:
-                res[i]['price'] = upAsk / bnSpBid
+                res[i]['price'] = fromAsk / toBid
             else:
                 try:
-                    res[i]['price'] = (upAsk * remainQty) / (
-                            bnSpBid * (remainQty - self.getWalletInfo()['up'][tic]['fee']))
+                    res[i]['price'] = (fromAsk * remainQty) / (
+                            toBid * (remainQty - self.getWalletInfo()[witEx][tic]['fee']))
                 except ZeroDivisionError:
-                    res[i][2] = BIG_FLOAT_NUMBER
+                    res[i][2] = BIG_DECIMAL_NUMBER
                 except Exception as e:
                     raise e
-            res[i]['volume'] = upAskQty
-            res[i]['upAsk'] = upAsk
-            res[i]['spBid'] = bnSpBid
-            res[i]['ftBid'] = bnFtBid
-            res[i]['upWithdraw'] = self.getWalletInfo()['up'][tic]['withdraw']
-            res[i]['bnDeposit'] = self.getWalletInfo()['bn'][tic]['deposit']
+
+            res[i]['volume'] = fromAskQty
+            res[i]['{}Ask'.format(fromEx)] = fromAsk
+            res[i]['{}Bid'.format(toEx)] = toBid
+            res[i]['{}Bid'.format(hedgeEx)] = hedgeBid
+            res[i]['{}Withdraw'.format(witEx)] = self.getWalletInfo()[witEx][tic]['withdraw']
+            res[i]['{}Deposit'.format(depEx)] = self.getWalletInfo()[depEx][tic]['deposit']
 
         res.sort(
-            key=lambda x: x['price'] if (x['price'] > 0 and x['upWithdraw'] and x['bnDeposit']) else BIG_FLOAT_NUMBER)
+            key=lambda x: x['price'] if (x['price'] > 0 and x['{}Withdraw'.format(witEx)] and x[
+                '{}Deposit'.format(depEx)]) else BIG_DECIMAL_NUMBER)
 
-        self.upToBnDataCache = res
+        self.dataCache[_dir] = res
+        self.cnt[_dir] = 0
 
         return res
+
+    def getDataByDirCached(self, _dir):
+        return self.dataCache[_dir]
 
     async def awaitOrderBookUpdates(self):
         await self.bnFtWebSocket.awaitOrderBookUpdate()
@@ -143,7 +173,14 @@ class MyDataManager(SingleTonAsyncInit):
 
     async def _run(self):
         while True:
-            await asyncio.sleep(5)
+            await asyncio.sleep(0.1)
+            self.cnt[TransferDir.UpToBn] += 1
+            self.cnt[TransferDir.BnToUp] += 1
+
+            if self.cnt[TransferDir.UpToBn] > 10:
+                await self.getDataByDir(TransferDir.UpToBn)
+            if self.cnt[TransferDir.BnToUp] > 10:
+                await self.getDataByDir(TransferDir.BnToUp)
 
     def run(self):
         self.exInfo.run()

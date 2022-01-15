@@ -91,7 +91,7 @@ def getUpbitNextPrice(price, step):
 def symbolToTicker(ex, symbol):
     if ex == 'up':
         return upbitSymbolToTicker(symbol)
-    elif ex == 'sp' or ex == 'ft':
+    elif ex == 'sp' or ex == 'ft' or ex == 'bn':
         return bnSymbolToTicker(symbol)
     else:
         raise Exception('등록되지 않은 거래소 닉네임 입니다. :', ex)
@@ -100,7 +100,7 @@ def symbolToTicker(ex, symbol):
 def tickerToSymbol(ex, ticker):
     if ex == 'up':
         return tickerToUpbitSymbol(ticker)
-    elif ex == 'sp' or ex == 'ft':
+    elif ex == 'sp' or ex == 'ft' or ex == 'bn':
         return tickerToBnSymbol(ticker)
     else:
         raise Exception('등록되지 않은 거래소 닉네임 입니다. :', ex)

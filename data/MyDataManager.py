@@ -20,6 +20,7 @@ from ui.MyLogger import MyLogger
 from work.Enums import TransferDir
 
 BIG_DECIMAL_NUMBER = Decimal('inf')
+MIN_STEP_KRW = Decimal('10000')
 
 
 class MyDataManager(SingleTonAsyncInit):
@@ -28,10 +29,10 @@ class MyDataManager(SingleTonAsyncInit):
         self.upCli = upCli
         self.bnCli = bnCli
 
-        self.exInfo = await ExGeneralInfo.createIns(upCli=self.upCli, bnCli=self.bnCli)
-        await self.exInfo.updateAllInfo()
+        self.exInfoManager = await ExGeneralInfo.createIns(upCli=self.upCli, bnCli=self.bnCli)
+        await self.exInfoManager.updateAllInfo()
 
-        self.tickers = self.exInfo.getTickers()
+        self.tickers = self.exInfoManager.getTickers()
 
         self.logger.info('[시작] 웹소켓 설정을 시작합니다.')
         self.logger.info('\t 바이낸스 선물 웹소켓')
@@ -41,6 +42,10 @@ class MyDataManager(SingleTonAsyncInit):
         self.logger.info('\t 업비트 현물 웹소켓')
         self.upWebSocket = await UpWebSocket.createIns(tickers=self.tickers)
         self.logger.info('[끝] 웹소켓 설정이 끝났습니다.')
+        self.orderBooks = self._getOrderBook()
+        await self.runSocket()
+
+        await self.verifyDecimalOfTickers()
 
         self.balanceManager = await BalanceManager.createIns(upCli=self.upCli, bnCli=self.bnCli)
 
@@ -51,8 +56,6 @@ class MyDataManager(SingleTonAsyncInit):
         self.cnt = {TransferDir.UpToBn: 0,
                     TransferDir.BnToUp: 0
                     }
-
-        self.orderBooks = self._getOrderBook()
 
         self.run()
 
@@ -83,16 +86,40 @@ class MyDataManager(SingleTonAsyncInit):
         return orderBook
 
     def getWalletInfo(self):
-        return self.exInfo.getWalletInfo()
+        return self.exInfoManager.getWalletInfo()
 
     def getExInfo(self):
-        return self.exInfo.getExInfo()
+        return self.exInfoManager.getExInfo()
 
     def getTickers(self):
         return self.tickers
 
     def getUpToBnDataCached(self):
         return self.upToBnDataCache
+
+    async def verifyDecimalOfTickers(self):
+        await self.requireOrderBookUpdates()
+        # price step, qty step, withdrawDecimal
+        delList = []
+        for ticker in self.tickers:
+            upSym = tickerToSymbol('up', ticker)
+            bnSym = tickerToSymbol('bn', ticker)
+
+            price = toDecimal(self.orderBooks['up'][upSym]['ask'][0][0])
+
+            qtyStep1 = toDecimal(self.getExInfo()['up'][upSym]['qtyStep'])
+            qtyStep2 = toDecimal(self.getExInfo()['sp'][bnSym]['qtyStep'])
+            qtyStep3 = toDecimal(self.getExInfo()['ft'][bnSym]['qtyStep'])
+            withdrawStep1 = toDecimal(self.getWalletInfo()['up'][ticker]['withdrawDecimal'])
+            withdrawStep2 = toDecimal(self.getWalletInfo()['bn'][ticker]['withdrawDecimal'])
+            step = max([qtyStep1, qtyStep2, qtyStep3, withdrawStep1, withdrawStep2])
+
+            if price * step > MIN_STEP_KRW:
+                delList.append(ticker)
+                self.logger.info('{0}의 step = {1}으로 제외되었습니다.'.format(ticker, price * step))
+
+        for ticker in delList:
+            del self.tickers[self.tickers.index(ticker)]
 
     async def getDataByDir(self, _dir, includedTickers=None, remainNotional=None):
         if includedTickers is None:
@@ -130,20 +157,30 @@ class MyDataManager(SingleTonAsyncInit):
             hedgeBid = toDecimal(self.orderBooks[hedgeEx][hedgeSym]['bid'][0][0])
 
             fromAskQty = Decimal(self.orderBooks[fromEx][fromSym]['ask'][0][1])
-            remainQty = remainNotional / fromAsk if remainNotional != None else fromAskQty
+            try:
+                remainQty = remainNotional / fromAsk if remainNotional != None else fromAskQty
+            except ZeroDivisionError:
+                remainQty = 0
 
             '''###-###'''
 
             res[i]['ticker'] = tic
-            res[i]['_price'] = fromAsk / toBid
+            try:
+                res[i]['_price'] = fromAsk / toBid
+            except ZeroDivisionError:
+                res[i]['_price'] = BIG_DECIMAL_NUMBER
+
             if tic in includedTickers:
-                res[i]['price'] = fromAsk / toBid
+                try:
+                    res[i]['price'] = fromAsk / toBid
+                except ZeroDivisionError:
+                    res[i]['price'] = BIG_DECIMAL_NUMBER
             else:
                 try:
                     res[i]['price'] = (fromAsk * remainQty) / (
                             toBid * (remainQty - self.getWalletInfo()[witEx][tic]['fee']))
                 except ZeroDivisionError:
-                    res[i][2] = BIG_DECIMAL_NUMBER
+                    res[i]['price'] = BIG_DECIMAL_NUMBER
                 except Exception as e:
                     raise e
 
@@ -171,6 +208,18 @@ class MyDataManager(SingleTonAsyncInit):
         await self.bnSpWebSocket.awaitOrderBookUpdate()
         await self.upWebSocket.awaitOrderBookUpdate()
 
+    async def requireOrderBookUpdates(self):
+        print('req')
+        r = True
+        r *= await self.bnFtWebSocket.awaitOrderBookUpdate()
+        r *= await self.bnSpWebSocket.awaitOrderBookUpdate()
+        r *= await self.upWebSocket.awaitOrderBookUpdate()
+
+        if r:
+            return
+        else:
+            await self.requireOrderBookUpdates()
+
     async def _run(self):
         while True:
             await asyncio.sleep(0.1)
@@ -183,12 +232,16 @@ class MyDataManager(SingleTonAsyncInit):
                 await self.getDataByDir(TransferDir.BnToUp)
 
     def run(self):
-        self.exInfo.run()
+        self.exInfoManager.run()
+        asyncio.get_event_loop().call_soon(createTask, self._run())
+        RUNNING_FLAG[0] = True
+
+    async def runSocket(self):
         self.bnFtWebSocket.run()
         self.bnSpWebSocket.run()
         self.upWebSocket.run()
-        asyncio.get_event_loop().call_soon(createTask, self._run())
         RUNNING_FLAG[0] = True
+        await asyncio.sleep(1)
 
 
 async def main():

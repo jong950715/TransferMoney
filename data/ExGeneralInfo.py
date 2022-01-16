@@ -64,7 +64,7 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
         self.upExInfo = defaultdict(dict)
         self.bnSpExInfo = defaultdict(dict)
         self.bnFtExInfo = defaultdict(dict)
-        self.ExInfo = {'up': self.upExInfo,
+        self.exInfo = {'up': self.upExInfo,
                        'sp': self.bnSpExInfo,
                        'ft': self.bnFtExInfo
                        }
@@ -100,7 +100,7 @@ class ExGeneralInfo(SingleTonAsyncInit, ConfigTable):
         return self.walletInfo
 
     def getExInfo(self):
-        return self.ExInfo
+        return self.exInfo
 
     def verifyAddress(self, ticker, address):
         if re.match(self.bnWalletInfo[ticker]['regex'], address):

@@ -86,7 +86,7 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
         self.totalNotional = notional
         self.remainNotional = notional
 
-        self.tickers = []
+        self.tickers = set()
 
         self.targetBalances = {'up': defaultdict(Decimal),
                                'sp': defaultdict(Decimal),
@@ -104,6 +104,8 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
         await asyncio.sleep(3)
 
         if self.isBuyingFinished():
+            MyLogger.getLogger().info('매수가 완료되었습니다. 매수목록: {0}'.format(self.tickers))
+            MyLogger.getLogger().info('출금을 시작합니다.')
             self.initTransferring()
             self.orderManager.done()
 
@@ -158,8 +160,8 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
         """
         buyEx, sellEx = self.getBuySellEx()
 
-        await self.dataManager.updateBalances(tickers=self.tickers)
         await self.cancelAllOrders()
+        await self.dataManager.updateBalances(tickers=self.tickers)
 
         orderList = []
         for ticker in self.tickers:
@@ -246,8 +248,9 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
         self.targetBalances[buyEx][ticker] += qty
         self.targetBalances[sellEx][ticker] -= qty
         self.remainNotional -= qty * buyPrice
-        self.tickers.append(ticker)
+        self.tickers.add(ticker)
         self.saveCheckPoint()
+        MyLogger.getLogger().info('{0}이(가) {1}개({2} 어치) 추가되었습니다. 남은양 {3}'.format(ticker, qty, qty*buyPrice, self.remainNotional))
 
     def _getSmallNotional(self, ex):
         if ex == 'up':
@@ -362,39 +365,51 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
         else:
             raise Exception('이상', self._dir)
 
+        await self.dataManager.updateBalances(tickers=self.tickers)
+
         withdraws = []
         # 출금 목록 만들기
         for ticker in self.tickers:
             qty = toDecimal(self.balances[buyEx][ticker])
             withdraws.append([fromEx, ticker, qty])
 
+        MyLogger.getLogger().info('len(withdraws) = {0}'.format(len(withdraws)))
+
         # 제출하기
         rets = await self.walletManager.submitWithdrawBatch(withdraws)
+
+        isRecursion = False
+        waitTime = 0
 
         for ret in rets:
             try:
                 await ret
                 ret.result()  # [fromEx, ticker, wId]
-                return  # 잘 되었으면 탈출
+                continue  # 잘 되었으면 탈출
             except UpbitError as e:
                 if e.name == 'withdraw_address_not_registered':
                     MyLogger.getLogger().info('{0}의 업비트 출금주소를 등록해주세요.'.format(e.ticker))
+                    isRecursion = True
+                    waitTime = 60 if waitTime < 60 else waitTime
+
                 elif e.name == 'withdraw_insufficient_balance' or e.name == 'withdraw_decimal_places_exceeded':
-                    raise Exception('로직 오류가 의심 됩니다.', e)
+                    raise Exception('로직 오류가 의심 됩니다.', e, e.ticker)
 
             except NoToAddressError as e:
                 MyLogger.getLogger().info('{0} 거래소의 {1} 입금주소가 존재하지 않습니다. '
                                           '발급 받고 있습니다.'.format(e.ex, e.ticker))
                 await self.walletManager.issueDepositAddress(e.ticker)
-                await self._runTransferring() # 발급 받았으니 바로 재도즈언
-                return
+                isRecursion = True
+                waitTime = 60 if waitTime < 60 else waitTime
 
             except Exception as e:
                 raise e
 
-        # 위에서 return 못했으면 60초 대기 후 리커젼
-        await asyncio.sleep(60)
-        await self._runTransferring()
+        MyLogger.getLogger().info('len(rets) = {0}'.format(len(rets)))
+
+        if isRecursion:
+            await asyncio.sleep(waitTime)
+            await self._runTransferring()  #재도즈언
 
     async def waitForTransferred(self):
         isFin = await self.walletManager.isAllCompleted()
@@ -508,7 +523,8 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
         self.saveCheckPoint()
 
     async def runDone(self):
-        pass
+        await self.walletManager.logReceipt(self.startTime, self.tickers)
+        await asyncio.sleep(10)
 
     # self.startTime
 

@@ -164,13 +164,14 @@ def testCode2():
     from work.TranferMoney import TM_PICKLE_FILE
     from work.WalletManager import WM_PICKLE_FILE
 
-    pickleFile = TM_PICKLE_FILE
-    #pickleFile = WM_PICKLE_FILE
+    #pickleFile = TM_PICKLE_FILE
+    pickleFile = WM_PICKLE_FILE
     with open(pickleFile, 'rb') as f:
         pickledData = pickle.loads(f.read())
     print(pickledData)
 
-    del pickledData['submittedList'][1]
+    # del pickledData['submittedList'][0]
+    # del pickledData['submittedList'][0]
 
     with open(pickleFile, 'wb') as f:
         f.write(pickle.dumps(pickledData))

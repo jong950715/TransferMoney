@@ -50,6 +50,8 @@ class Withdraw:
         self.minQty = self.walletInfos[self.fromEx][self.ticker]['withdrawMin']
         self.maxQty = self.walletInfos[self.fromEx][self.ticker]['withdrawMax']
         self.qtyStep = self.walletInfos[self.fromEx][self.ticker]['withdrawDecimal']
+        if self.ticker == 'NEO':
+            self.qtyStep = Decimal('1')
         self.fee = self.walletInfos[self.fromEx][self.ticker]['fee']
 
         try:
@@ -75,10 +77,10 @@ class Withdraw:
         """
         최대값, 최소값, step, address, 수수료
         """
-        self.qty = (self.qty // self.qtyStep) * self.qtyStep
-
         if self.fromEx == 'up':
             self.qty -= self.fee
+
+        self.qty = (self.qty // self.qtyStep) * self.qtyStep
 
         if self.qty < self.minQty:
             self.skip = True
@@ -88,7 +90,7 @@ class Withdraw:
         if re.match(self.walletInfos['bn'][self.ticker]['regex'], self.addr1):
             return True
         else:
-            return False
+            raise Exception('입금주소가 이상합니다.', self.addr1)
 
     async def _upWithdraw(self):
         try:

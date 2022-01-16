@@ -1,7 +1,16 @@
 # 퓨쳐스 수량을 업비트에 추종하게끔 하면 좀 더 좋은 값 받을 수 있을듯
 
+# 매수 매도 가격
+
 # buying에서 한번에 1000만원 정도 제한 하면 좋을듯
 # 현선 제한도
+
+### submitted = await w.do()  # ['up', res['uuid'], self.ticker, self.qty] 에러 핸들링
+### Task exception was never retrieved
+### 테스트방법: 등록 취소해놓고 금액 최대를 제한시켜서 3개로 무적권 나눠지게 해서 해보면 될듯
+### 출금 주소 등록해주세요 준나 떠댐 -> self.tickers를 set으로 변경해야 할듯
+
+# 이외에도 출금쪽 에러 핸들링 쭉 훑어보기
 
 # No float Yes Decimal
 
@@ -9,6 +18,8 @@
 # 잔고 딸릴때 에러 코드 확인하고 try except 적용하기
 
 # 피클 목록 점검
+
+# evnet 동시 접근 문제 (websocket)
 
 # receipt 에 출금 수수료 포함하기
 # receipt 개선 필요할듯. 예를 들어 팔고 산 수량이 다른거 같은거 보정해줘야지

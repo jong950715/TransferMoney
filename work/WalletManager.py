@@ -23,7 +23,8 @@ class WalletManager(SingleTonAsyncInit, CheckPointManager):
         self.bnCli = bnCli
         self.dataManager = dataManager
 
-        Withdraw.initClass(upCli, bnCli, dataManager.getWalletInfo())
+        if dataManager:
+            Withdraw.initClass(upCli, bnCli, dataManager.getWalletInfo())
 
         self.submittedList = []  # [['up', res['uuid'], self.ticker, self.qty]]
 
@@ -142,7 +143,7 @@ class WalletManager(SingleTonAsyncInit, CheckPointManager):
                 if int(r['time']) // 1000 < fromTime:
                     break
                 q = toDecimal(r['executedQty'])
-                p = toDecimal(r['price'])
+                p = toDecimal(r['avgPrice'])
 
                 if r['side'] == 'BUY':
                     q = -q
@@ -189,13 +190,14 @@ class WalletManager(SingleTonAsyncInit, CheckPointManager):
     async def issueDepositAddress(self, ticker):
         await self.upCli.generate_coin_address(ticker=ticker)
         await asyncio.sleep(5)
-        await self.dataManager.exInfo.updateUpbitAddress()
-
+        await self.dataManager.exInfoManager.updateUpbitAddress()
 
 
 # WalletManager
 
 async def example():
+    fromTime = datetime.strptime('2022-01-16T10:00:00+09:00', "%Y-%m-%dT%H:%M:%S%z").timestamp()
+
     myLogger = await MyLogger.createIns()
 
     await MyConfigManager.getIns()
@@ -206,7 +208,7 @@ async def example():
 
     wm = await WalletManager.getIns(upCli, bnCli, None)
 
-    await wm.logReceipt(1642178280, ['QTUM'])
+    await wm.logReceipt(fromTime, ['EOS', 'ZIL', 'LTC', 'ATOM'])
 
 
 if __name__ == "__main__":

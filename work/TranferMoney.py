@@ -501,11 +501,13 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
             raise Exception('ex이상', sellEx)
 
         for ticker in self.tickers:
+            sellPrice = self._getBestBidAskPrice(sellEx, tickerToSymbol(sellEx, ticker), 'bid')
+            maxOneQty = maxOneNotional/sellPrice
             tb = self.targetBalances[sellEx][ticker]
-            tb -= maxOneNotional
+            tb -= maxOneQty # ERROR
             tb = 0 if tb < smallNotional else tb
             self.targetBalances[sellEx][ticker] = tb
-            self.targetBalances[buyEx][ticker] = tb
+            self.targetBalances[buyEx][ticker] = -tb
 
         self.saveCheckPoint()
 

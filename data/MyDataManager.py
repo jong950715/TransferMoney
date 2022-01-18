@@ -209,7 +209,6 @@ class MyDataManager(SingleTonAsyncInit):
         await self.upWebSocket.awaitOrderBookUpdate()
 
     async def requireOrderBookUpdates(self):
-        print('req')
         r = True
         r *= await self.bnFtWebSocket.awaitOrderBookUpdate()
         r *= await self.bnSpWebSocket.awaitOrderBookUpdate()
@@ -245,8 +244,19 @@ class MyDataManager(SingleTonAsyncInit):
 
 
 async def main():
-    dataManager = await MyDataManager.createIns()
-    dataManager.run()
+    myLogger = await MyLogger.createIns()
+
+    await MyConfigManager.getIns()
+    configKeys = MyConfigManager.getInsSync().getConfig('configKeys')
+
+    upCli = UpClient(access=configKeys['upbit']['api_key'], secret=configKeys['upbit']['secret_key'])
+    bnCli = await BnClient.create(configKeys['binance']['api_key'], configKeys['binance']['secret_key'])
+
+    res = await upCli.get_balances()
+    print(res)
+
+    dataManager = await MyDataManager.createIns(upCli=upCli, bnCli=bnCli)
+
     while True:
         await asyncio.sleep(5)
         print("여기는 main문 입니다.")

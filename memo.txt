@@ -1,46 +1,22 @@
-# 퓨쳐스 수량을 업비트에 추종하게끔 하면 좀 더 좋은 값 받을 수 있을듯
-
-# 매수 매도 가격
-
-# buying에서 한번에 1000만원 정도 제한 하면 좋을듯
 # 현선 제한도
-
-### submitted = await w.do()  # ['up', res['uuid'], self.ticker, self.qty] 에러 핸들링
-### Task exception was never retrieved
-### 테스트방법: 등록 취소해놓고 금액 최대를 제한시켜서 3개로 무적권 나눠지게 해서 해보면 될듯
-### 출금 주소 등록해주세요 준나 떠댐 -> self.tickers를 set으로 변경해야 할듯
-
-# 이외에도 출금쪽 에러 핸들링 쭉 훑어보기
-
-# No float Yes Decimal
 
 # krw, usdt 잔고보고 verifying
 # 잔고 딸릴때 에러 코드 확인하고 try except 적용하기
 
-# 피클 목록 점검
-
-# evnet 동시 접근 문제 (websocket)
-
-# receipt 에 출금 수수료 포함하기
 # receipt 개선 필요할듯. 예를 들어 팔고 산 수량이 다른거 같은거 보정해줘야지
 
 # 로그좀 싹 넣자
 
-# 메일주소 백상찬 바꾸기!!
-
+# 진행단계창 배경색이나 좀 더 눈에 띄는걸로
 # controlWindow Font Size
 # balance 관련 view 업뎃 ㄱㄱ (업뎃 분리 필요)
 
 # view는 준비중인데 control은 준비완료
+
+# 가격 같으면 주문취소-재주문 안하게
+
+# 퓨쳐스 수량을 업비트에 추종하게끔 하면 좀 더 좋은 값 받을 수 있을듯
+# 업비트 거래량 파라미터(https://api.upbit.com/v1/candles/minutes/{unit}) 추가해서 필터 알고리즘 다시 짜면 될듯
+
+# 메일주소 백상찬 바꾸기!!
 ==========
-
-
-# fastBooting 필요
-
-# booting중 인터페이스 필요 되는건지 뭔지
-
-# 입력창 콤마
-
-# 진행단계창 배경색이나 좀 더 눈에 띄는걸로
-
-# FT balance tickers 개수에 따라서 다르게 해도 좋을듯

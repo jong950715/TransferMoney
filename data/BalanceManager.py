@@ -6,7 +6,7 @@ from decimal import Decimal
 
 from common.SingleTonAsyncInit import SingleTonAsyncInit
 from config.MyConfigManager import MyConfigManager
-from data.dataCommons import tickerToBnSymbol, bnSymbolToTicker
+from data.dataCommons import tickerToBnSymbol, bnSymbolToTicker, toDecimal
 from selfLib.UpClient import UpClient
 from binance import AsyncClient as BnClient
 
@@ -42,6 +42,9 @@ class BalanceManager(SingleTonAsyncInit):
             self.upBalance[r['currency']] = r['balance']
 
     async def updateSpBalance(self, tickers):
+        tickers = set(tickers)
+        tickers.add('USDT')
+
         res = await self.bnCli.get_account()
         for r in res['balances']:
             ticker = r['asset']
@@ -49,6 +52,14 @@ class BalanceManager(SingleTonAsyncInit):
                 self.spBalance[ticker] = Decimal(r['free']) + Decimal(r['locked'])
 
     async def updateFtBalance(self, tickers):
+        res = await self.bnCli.futures_account_balance()
+        usd = Decimal('0')
+        for r in res:
+            if r['asset'] == 'USDT' or r['asset'] == 'BUSD':
+                usd += toDecimal(r['balance'])
+
+        self.ftBalance['USDT'] = usd
+
         if not tickers:
             return
 
@@ -70,8 +81,9 @@ async def example():
     bnCli = await BnClient.create(configKeys['binance']['api_key'], configKeys['binance']['secret_key'])
 
     balanceManager = await BalanceManager.createIns(upCli, bnCli)
-    res = await balanceManager.updateSpBalance(['BNB', 'USDT'])
+    res = await balanceManager.updateBalances([])
     print(res)
+
 
 
 if __name__ == "__main__":

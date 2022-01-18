@@ -58,6 +58,9 @@ class OrderManager(SingleTonAsyncInit, CheckPointManager):
         self.saveCheckPoint()
         # print("order 제출 테스토", orderData)
 
+    def getOrders(self):
+        return self.ordersToBeCanceled
+
     async def cancelOrderBatch(self):
         tasks = []
         for orderData in self.ordersToBeCanceled:

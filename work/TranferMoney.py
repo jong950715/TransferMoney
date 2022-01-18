@@ -78,9 +78,23 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
 
     def startTransfer(self, _dir: TransferDir, notional):
         if self.runState == TransferState.STANDBY:
-            self.initBuying(_dir, notional)
+            asyncio.get_event_loop().call_soon(asyncio.create_task, self.initBuying(_dir, notional))
 
-    def initBuying(self, _dir, notional):
+    async def validateBalance(self, _dir, notional):
+        await self.dataManager.updateBalances([])
+        if _dir == TransferDir.UpToBn:
+            return (notional < self._getBalance('up', 'KRW')) and (
+                        (notional / Decimal('1200') * Decimal('0.2')) < self._getBalance('ft', 'USDT'))
+        elif _dir == TransferDir.BnToUp:
+            return (notional < self._getBalance('sp', 'USDT')) and (
+                    (notional * Decimal('0.2')) < self._getBalance('ft', 'USDT'))
+
+    async def initBuying(self, _dir, notional):
+        if (await self.validateBalance(_dir, notional)):
+            MyLogger.getLogger().info('매수를 시작합니다.')
+        else:
+            MyLogger.getLogger().info('돈이 부족합니다. 잔액을 확인해주세요.')
+            return
         self._dir = _dir
 
         self.totalNotional = notional
@@ -250,7 +264,8 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
         self.remainNotional -= qty * buyPrice
         self.tickers.add(ticker)
         self.saveCheckPoint()
-        MyLogger.getLogger().info('{0}이(가) {1}개({2} 어치) 추가되었습니다. 남은양 {3}'.format(ticker, qty, qty*buyPrice, self.remainNotional))
+        MyLogger.getLogger().info(
+            '{0}이(가) {1}개({2} 어치) 추가되었습니다. 남은양 {3}'.format(ticker, qty, qty * buyPrice, self.remainNotional))
 
     def _getSmallNotional(self, ex):
         if ex == 'up':
@@ -373,8 +388,6 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
             qty = toDecimal(self.balances[buyEx][ticker])
             withdraws.append([fromEx, ticker, qty])
 
-        MyLogger.getLogger().info('len(withdraws) = {0}'.format(len(withdraws)))
-
         # 제출하기
         rets = await self.walletManager.submitWithdrawBatch(withdraws)
 
@@ -385,7 +398,7 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
             try:
                 await ret
                 ret.result()  # [fromEx, ticker, wId]
-                continue  # 잘 되었으면 탈출
+                continue  # 문제없으면 속행
             except UpbitError as e:
                 if e.name == 'withdraw_address_not_registered':
                     MyLogger.getLogger().info('{0}의 업비트 출금주소를 등록해주세요.'.format(e.ticker))
@@ -405,11 +418,10 @@ class TransferMoney(SingleTonAsyncInit, CheckPointManager):
             except Exception as e:
                 raise e
 
-        MyLogger.getLogger().info('len(rets) = {0}'.format(len(rets)))
-
+        # Task exception was never retrieved 방지를 위해 다 돌고 flag 세워서 recursion 들어가야됌
         if isRecursion:
             await asyncio.sleep(waitTime)
-            await self._runTransferring()  #재도즈언
+            await self._runTransferring()  # 재도즈언
 
     async def waitForTransferred(self):
         isFin = await self.walletManager.isAllCompleted()

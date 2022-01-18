@@ -3950,3 +3950,233 @@
 |2022-01-16 15:30:28,862|	##INFO##	usdt : 8230.9050093600000000000	 >> File "WalletManager.py", line 186, in WalletManager
 |2022-01-16 15:30:28,862|	##INFO##	krw : -10004999.99999029515	 >> File "WalletManager.py", line 187, in WalletManager
 |2022-01-16 15:30:28,862|	##INFO##	krw/usdt : -1215.540695538684292888560252	 >> File "WalletManager.py", line 188, in WalletManager
+|2022-01-17 11:14:10,105|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 196, in ExGeneralInfo
+|2022-01-17 11:14:10,105|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 276, in ExGeneralInfo
+|2022-01-17 11:14:10,782|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 327, in ExGeneralInfo
+|2022-01-17 11:14:12,757|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 199, in ExGeneralInfo
+|2022-01-17 11:14:12,757|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 202, in ExGeneralInfo
+|2022-01-17 11:14:12,888|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 225, in ExGeneralInfo
+|2022-01-17 11:14:12,888|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 168, in ExGeneralInfo
+|2022-01-17 11:14:13,061|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 179, in ExGeneralInfo
+|2022-01-17 11:14:13,061|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 154, in ExGeneralInfo
+|2022-01-17 11:14:19,691|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 165, in ExGeneralInfo
+|2022-01-17 11:14:19,691|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 112, in ExGeneralInfo
+|2022-01-17 11:14:19,691|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 120, in ExGeneralInfo
+|2022-01-17 11:14:19,691|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-17 11:14:19,831|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 151, in ExGeneralInfo
+|2022-01-17 11:14:19,834|	##INFO##	[시작] 웹소켓 설정을 시작합니다.	 >> File "MyDataManager.py", line 37, in MyDataManager
+|2022-01-17 11:14:19,834|	##INFO##		 바이낸스 선물 웹소켓	 >> File "MyDataManager.py", line 38, in MyDataManager
+|2022-01-17 11:14:19,834|	##INFO##		 바이낸스 현물 웹소켓	 >> File "MyDataManager.py", line 40, in MyDataManager
+|2022-01-17 11:14:19,834|	##INFO##		 업비트 현물 웹소켓	 >> File "MyDataManager.py", line 42, in MyDataManager
+|2022-01-17 11:14:19,834|	##INFO##	[끝] 웹소켓 설정이 끝났습니다.	 >> File "MyDataManager.py", line 44, in MyDataManager
+|2022-01-17 11:14:29,552|	##INFO##	AAVE의 step = 28910.00으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:14:29,552|	##INFO##	AXS의 step = 96600.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:14:29,552|	##INFO##	NEAR의 step = 23750.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:14:29,553|	##INFO##	NEO의 step = 30060.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:14:29,553|	##INFO##	SOL의 step = 176300.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:16:54,207|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 196, in ExGeneralInfo
+|2022-01-17 11:16:54,207|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 276, in ExGeneralInfo
+|2022-01-17 11:16:54,774|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 327, in ExGeneralInfo
+|2022-01-17 11:16:56,864|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 199, in ExGeneralInfo
+|2022-01-17 11:16:56,864|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 202, in ExGeneralInfo
+|2022-01-17 11:16:56,983|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 225, in ExGeneralInfo
+|2022-01-17 11:16:56,983|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 168, in ExGeneralInfo
+|2022-01-17 11:16:57,154|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 179, in ExGeneralInfo
+|2022-01-17 11:16:57,154|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 154, in ExGeneralInfo
+|2022-01-17 11:17:02,677|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 165, in ExGeneralInfo
+|2022-01-17 11:17:02,677|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 112, in ExGeneralInfo
+|2022-01-17 11:17:02,677|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 120, in ExGeneralInfo
+|2022-01-17 11:17:02,677|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-17 11:17:02,987|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 151, in ExGeneralInfo
+|2022-01-17 11:17:02,989|	##INFO##	[시작] 웹소켓 설정을 시작합니다.	 >> File "MyDataManager.py", line 37, in MyDataManager
+|2022-01-17 11:17:02,989|	##INFO##		 바이낸스 선물 웹소켓	 >> File "MyDataManager.py", line 38, in MyDataManager
+|2022-01-17 11:17:02,989|	##INFO##		 바이낸스 현물 웹소켓	 >> File "MyDataManager.py", line 40, in MyDataManager
+|2022-01-17 11:17:02,989|	##INFO##		 업비트 현물 웹소켓	 >> File "MyDataManager.py", line 42, in MyDataManager
+|2022-01-17 11:17:02,990|	##INFO##	[끝] 웹소켓 설정이 끝났습니다.	 >> File "MyDataManager.py", line 44, in MyDataManager
+|2022-01-17 11:17:13,964|	##INFO##	MTLUSDT이 지연되고 있습니다. 제외시켜주세요.	 >> File "BaseWebSocket.py", line 46, in BaseWebSocket
+|2022-01-17 11:17:23,982|	##INFO##	MTLUSDT이 지연되고 있습니다. 제외시켜주세요.	 >> File "BaseWebSocket.py", line 46, in BaseWebSocket
+|2022-01-17 11:17:33,962|	##INFO##	MTLUSDT이 지연되고 있습니다. 제외시켜주세요.	 >> File "BaseWebSocket.py", line 46, in BaseWebSocket
+|2022-01-17 11:17:43,964|	##INFO##	MTLUSDT이 지연되고 있습니다. 제외시켜주세요.	 >> File "BaseWebSocket.py", line 46, in BaseWebSocket
+|2022-01-17 11:17:53,968|	##INFO##	MTLUSDT이 지연되고 있습니다. 제외시켜주세요.	 >> File "BaseWebSocket.py", line 46, in BaseWebSocket
+|2022-01-17 11:18:03,943|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 196, in ExGeneralInfo
+|2022-01-17 11:18:03,943|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 276, in ExGeneralInfo
+|2022-01-17 11:18:04,419|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 327, in ExGeneralInfo
+|2022-01-17 11:18:06,575|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 199, in ExGeneralInfo
+|2022-01-17 11:18:06,575|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 202, in ExGeneralInfo
+|2022-01-17 11:18:06,692|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 225, in ExGeneralInfo
+|2022-01-17 11:18:06,693|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 168, in ExGeneralInfo
+|2022-01-17 11:18:06,808|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 179, in ExGeneralInfo
+|2022-01-17 11:18:06,808|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 154, in ExGeneralInfo
+|2022-01-17 11:18:12,335|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 165, in ExGeneralInfo
+|2022-01-17 11:18:12,335|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 112, in ExGeneralInfo
+|2022-01-17 11:18:12,335|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 120, in ExGeneralInfo
+|2022-01-17 11:18:12,336|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-17 11:18:12,541|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 151, in ExGeneralInfo
+|2022-01-17 11:18:12,544|	##INFO##	[시작] 웹소켓 설정을 시작합니다.	 >> File "MyDataManager.py", line 37, in MyDataManager
+|2022-01-17 11:18:12,544|	##INFO##		 바이낸스 선물 웹소켓	 >> File "MyDataManager.py", line 38, in MyDataManager
+|2022-01-17 11:18:12,544|	##INFO##		 바이낸스 현물 웹소켓	 >> File "MyDataManager.py", line 40, in MyDataManager
+|2022-01-17 11:18:12,544|	##INFO##		 업비트 현물 웹소켓	 >> File "MyDataManager.py", line 42, in MyDataManager
+|2022-01-17 11:18:12,545|	##INFO##	[끝] 웹소켓 설정이 끝났습니다.	 >> File "MyDataManager.py", line 44, in MyDataManager
+|2022-01-17 11:18:18,894|	##INFO##	AAVE의 step = 29000.00으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:18:18,894|	##INFO##	AXS의 step = 97220.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:18:18,895|	##INFO##	NEAR의 step = 23770.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:18:18,895|	##INFO##	NEO의 step = 30050.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:18:18,895|	##INFO##	SOL의 step = 176850.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:44:12,924|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 196, in ExGeneralInfo
+|2022-01-17 11:44:12,925|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 276, in ExGeneralInfo
+|2022-01-17 11:44:13,541|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 327, in ExGeneralInfo
+|2022-01-17 11:44:15,452|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 199, in ExGeneralInfo
+|2022-01-17 11:44:15,453|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 202, in ExGeneralInfo
+|2022-01-17 11:44:15,575|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 225, in ExGeneralInfo
+|2022-01-17 11:44:15,576|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 168, in ExGeneralInfo
+|2022-01-17 11:44:15,666|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 179, in ExGeneralInfo
+|2022-01-17 11:44:15,666|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 154, in ExGeneralInfo
+|2022-01-17 11:44:20,809|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 165, in ExGeneralInfo
+|2022-01-17 11:44:20,809|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 112, in ExGeneralInfo
+|2022-01-17 11:44:20,810|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 120, in ExGeneralInfo
+|2022-01-17 11:44:20,810|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-17 11:44:21,041|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 151, in ExGeneralInfo
+|2022-01-17 11:44:21,044|	##INFO##	[시작] 웹소켓 설정을 시작합니다.	 >> File "MyDataManager.py", line 37, in MyDataManager
+|2022-01-17 11:44:21,044|	##INFO##		 바이낸스 선물 웹소켓	 >> File "MyDataManager.py", line 38, in MyDataManager
+|2022-01-17 11:44:21,046|	##INFO##		 바이낸스 현물 웹소켓	 >> File "MyDataManager.py", line 40, in MyDataManager
+|2022-01-17 11:44:21,047|	##INFO##		 업비트 현물 웹소켓	 >> File "MyDataManager.py", line 42, in MyDataManager
+|2022-01-17 11:44:21,047|	##INFO##	[끝] 웹소켓 설정이 끝났습니다.	 >> File "MyDataManager.py", line 44, in MyDataManager
+|2022-01-17 11:46:50,636|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 196, in ExGeneralInfo
+|2022-01-17 11:46:50,637|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 276, in ExGeneralInfo
+|2022-01-17 11:46:51,169|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 327, in ExGeneralInfo
+|2022-01-17 11:46:53,148|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 199, in ExGeneralInfo
+|2022-01-17 11:46:53,148|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 202, in ExGeneralInfo
+|2022-01-17 11:46:53,256|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 225, in ExGeneralInfo
+|2022-01-17 11:46:53,257|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 168, in ExGeneralInfo
+|2022-01-17 11:46:53,381|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 179, in ExGeneralInfo
+|2022-01-17 11:46:53,381|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 154, in ExGeneralInfo
+|2022-01-17 11:46:58,900|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 165, in ExGeneralInfo
+|2022-01-17 11:46:58,901|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 112, in ExGeneralInfo
+|2022-01-17 11:46:58,901|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 120, in ExGeneralInfo
+|2022-01-17 11:46:58,901|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-17 11:46:59,188|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 151, in ExGeneralInfo
+|2022-01-17 11:46:59,190|	##INFO##	[시작] 웹소켓 설정을 시작합니다.	 >> File "MyDataManager.py", line 37, in MyDataManager
+|2022-01-17 11:46:59,190|	##INFO##		 바이낸스 선물 웹소켓	 >> File "MyDataManager.py", line 38, in MyDataManager
+|2022-01-17 11:46:59,191|	##INFO##		 바이낸스 현물 웹소켓	 >> File "MyDataManager.py", line 40, in MyDataManager
+|2022-01-17 11:46:59,191|	##INFO##		 업비트 현물 웹소켓	 >> File "MyDataManager.py", line 42, in MyDataManager
+|2022-01-17 11:46:59,192|	##INFO##	[끝] 웹소켓 설정이 끝났습니다.	 >> File "MyDataManager.py", line 44, in MyDataManager
+|2022-01-17 11:47:10,540|	##INFO##	XEMUSDT이 지연되고 있습니다. 제외시켜주세요.	 >> File "BaseWebSocket.py", line 46, in BaseWebSocket
+|2022-01-17 11:47:20,540|	##INFO##	XEMUSDT이 지연되고 있습니다. 제외시켜주세요.	 >> File "BaseWebSocket.py", line 46, in BaseWebSocket
+|2022-01-17 11:47:26,307|	##INFO##	AAVE의 step = 28970.00으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:47:26,308|	##INFO##	AXS의 step = 97350.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:47:26,309|	##INFO##	NEAR의 step = 23770.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:47:26,309|	##INFO##	NEO의 step = 30050.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 11:47:26,309|	##INFO##	SOL의 step = 176350.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 14:49:29,561|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 196, in ExGeneralInfo
+|2022-01-17 14:49:29,561|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 276, in ExGeneralInfo
+|2022-01-17 14:49:30,217|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 327, in ExGeneralInfo
+|2022-01-17 14:49:32,585|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 199, in ExGeneralInfo
+|2022-01-17 14:49:32,585|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 202, in ExGeneralInfo
+|2022-01-17 14:49:32,695|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 225, in ExGeneralInfo
+|2022-01-17 14:49:32,695|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 168, in ExGeneralInfo
+|2022-01-17 14:49:32,826|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 179, in ExGeneralInfo
+|2022-01-17 14:49:32,826|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 154, in ExGeneralInfo
+|2022-01-17 14:49:37,614|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 165, in ExGeneralInfo
+|2022-01-17 14:49:37,614|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 112, in ExGeneralInfo
+|2022-01-17 14:49:37,614|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 120, in ExGeneralInfo
+|2022-01-17 14:49:37,614|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-17 14:49:37,776|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 151, in ExGeneralInfo
+|2022-01-17 14:49:37,778|	##INFO##	[시작] 웹소켓 설정을 시작합니다.	 >> File "MyDataManager.py", line 37, in MyDataManager
+|2022-01-17 14:49:37,778|	##INFO##		 바이낸스 선물 웹소켓	 >> File "MyDataManager.py", line 38, in MyDataManager
+|2022-01-17 14:49:37,778|	##INFO##		 바이낸스 현물 웹소켓	 >> File "MyDataManager.py", line 40, in MyDataManager
+|2022-01-17 14:49:37,778|	##INFO##		 업비트 현물 웹소켓	 >> File "MyDataManager.py", line 42, in MyDataManager
+|2022-01-17 14:49:37,779|	##INFO##	[끝] 웹소켓 설정이 끝났습니다.	 >> File "MyDataManager.py", line 44, in MyDataManager
+|2022-01-17 14:49:43,769|	##INFO##	AAVE의 step = 27730.00으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 14:49:43,769|	##INFO##	AXS의 step = 98690.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 14:49:43,769|	##INFO##	NEAR의 step = 23570.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 14:49:43,769|	##INFO##	NEO의 step = 29580.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 14:49:43,769|	##INFO##	SOL의 step = 173450.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-17 14:49:48,261|	##INFO##	돈이 부족합니다. 잔액을 확인해주세요.	 >> File "TranferMoney.py", line 96, in TranferMoney
+|2022-01-17 14:50:07,972|	##INFO##	매수를 시작합니다.	 >> File "TranferMoney.py", line 94, in TranferMoney
+|2022-01-17 14:50:08,199|	##INFO##	#ORDER#	 sym : KRW-ADA	 p : 1795.000000	 q : 678.390610	 >> File "Order.py", line 90, in Order
+|2022-01-17 14:50:08,200|	##INFO##	#ORDER#	 sym : ADAUSDT	 p : 1.475400	 q : -678.000000	 >> File "Order.py", line 90, in Order
+|2022-01-17 14:50:08,340|	##INFO##	ADA이(가) 678.3906097200000431257649324834346771240234375개(1217711.144447400077410748054 어치) 추가되었습니다. 남은양 8782288.855552599922589251946	 >> File "TranferMoney.py", line 267, in TranferMoney
+|2022-01-17 14:50:11,697|	##INFO##	#ORDER#	 sym : KRW-ADA	 p : 1795.000000	 q : 4892.640031	 >> File "Order.py", line 90, in Order
+|2022-01-17 14:50:11,698|	##INFO##	#ORDER#	 sym : ADAUSDT	 p : 1.474600	 q : -4892.000000	 >> File "Order.py", line 90, in Order
+|2022-01-17 14:50:11,896|	##INFO##	ADA이(가) 4892.640030948523633754457909개(8782288.855552599922589251947 어치) 추가되었습니다. 남은양 -1E-21	 >> File "TranferMoney.py", line 267, in TranferMoney
+|2022-01-17 14:50:18,212|	##INFO##	매수가 완료되었습니다. 매수목록: {'ADA'}	 >> File "TranferMoney.py", line 121, in TranferMoney
+|2022-01-17 14:50:18,212|	##INFO##	출금을 시작합니다.	 >> File "TranferMoney.py", line 122, in TranferMoney
+|2022-01-17 14:50:18,919|	##INFO##	up에서 ADA의 5571.0306413개 출금요청이 제출되었습니다.	 >> File "WalletManager.py", line 43, in WalletManager
+|2022-01-17 14:50:18,920|	##INFO##	출금요청이 모두 완료되었습니다. 입금 대기 하겠습니다.	 >> File "TranferMoney.py", line 345, in TranferMoney
+|2022-01-17 15:10:31,759|	##INFO##	출금 거래소의 처리가 끝났습니다. 입금 거래소의 입금을 기다리겠습니다.	 >> File "TranferMoney.py", line 432, in TranferMoney
+|2022-01-17 15:10:31,880|	##INFO##	입금이 확인되었습니다.	 >> File "TranferMoney.py", line 347, in TranferMoney
+|2022-01-17 15:10:31,880|	##INFO##	매도를 시작하겠습니다.	 >> File "TranferMoney.py", line 461, in TranferMoney
+|2022-01-17 15:10:32,208|	##INFO##	#ORDER#	 sym : ADAUSDT	 p : 1.505000	 q : 8140.000000	 >> File "Order.py", line 90, in Order
+|2022-01-17 15:10:32,209|	##INFO##	#ORDER#	 sym : ADAUSDT	 p : 1.505000	 q : -3000.000000	 >> File "Order.py", line 90, in Order
+|2022-01-17 15:10:35,616|	##INFO##	#ORDER#	 sym : ADAUSDT	 p : 1.504300	 q : -2570.000000	 >> File "Order.py", line 90, in Order
+|2022-01-17 15:10:35,617|	##INFO##	#ORDER#	 sym : ADAUSDT	 p : 1.505000	 q : -2570.500000	 >> File "Order.py", line 90, in Order
+|2022-01-17 15:10:41,946|	##INFO##	매도가 완료되었습니다.	 >> File "TranferMoney.py", line 488, in TranferMoney
+|2022-01-17 15:10:41,946|	##INFO##	끝!	 >> File "TranferMoney.py", line 532, in TranferMoney
+|2022-01-17 15:10:42,618|	##INFO##	usdt : 8194.9019713400000000000	 >> File "WalletManager.py", line 186, in WalletManager
+|2022-01-17 15:10:42,618|	##INFO##	krw : -10004999.99998469235	 >> File "WalletManager.py", line 187, in WalletManager
+|2022-01-17 15:10:42,618|	##INFO##	krw/usdt : -1220.880986127124084266459349	 >> File "WalletManager.py", line 188, in WalletManager
+|2022-01-17 15:10:43,418|	##INFO##	usdt : 8194.9019713400000000000	 >> File "WalletManager.py", line 186, in WalletManager
+|2022-01-17 15:10:43,418|	##INFO##	krw : -10004999.99998469235	 >> File "WalletManager.py", line 187, in WalletManager
+|2022-01-17 15:10:43,418|	##INFO##	krw/usdt : -1220.880986127124084266459349	 >> File "WalletManager.py", line 188, in WalletManager
+|2022-01-17 15:10:53,979|	##INFO##	usdt : 8194.9019713400000000000	 >> File "WalletManager.py", line 186, in WalletManager
+|2022-01-17 15:10:53,979|	##INFO##	krw : -10004999.99998469235	 >> File "WalletManager.py", line 187, in WalletManager
+|2022-01-17 15:10:53,979|	##INFO##	krw/usdt : -1220.880986127124084266459349	 >> File "WalletManager.py", line 188, in WalletManager
+|2022-01-18 00:25:39,330|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 196, in ExGeneralInfo
+|2022-01-18 00:25:39,331|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 276, in ExGeneralInfo
+|2022-01-18 00:25:39,881|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 327, in ExGeneralInfo
+|2022-01-18 00:25:42,019|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 199, in ExGeneralInfo
+|2022-01-18 00:25:42,019|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 202, in ExGeneralInfo
+|2022-01-18 00:25:42,324|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 225, in ExGeneralInfo
+|2022-01-18 00:25:42,325|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 168, in ExGeneralInfo
+|2022-01-18 00:25:42,397|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 179, in ExGeneralInfo
+|2022-01-18 00:25:42,397|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 154, in ExGeneralInfo
+|2022-01-18 00:25:59,403|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 196, in ExGeneralInfo
+|2022-01-18 00:25:59,403|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 276, in ExGeneralInfo
+|2022-01-18 00:25:59,903|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 327, in ExGeneralInfo
+|2022-01-18 00:26:01,909|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 199, in ExGeneralInfo
+|2022-01-18 00:26:01,909|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 202, in ExGeneralInfo
+|2022-01-18 00:26:02,032|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 225, in ExGeneralInfo
+|2022-01-18 00:26:02,032|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 168, in ExGeneralInfo
+|2022-01-18 00:26:02,161|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 179, in ExGeneralInfo
+|2022-01-18 00:26:02,161|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 154, in ExGeneralInfo
+|2022-01-18 00:26:08,074|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 165, in ExGeneralInfo
+|2022-01-18 00:26:08,074|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 112, in ExGeneralInfo
+|2022-01-18 00:26:08,074|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 120, in ExGeneralInfo
+|2022-01-18 00:26:08,074|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-18 00:26:08,292|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 151, in ExGeneralInfo
+|2022-01-18 00:26:08,295|	##INFO##	[시작] 웹소켓 설정을 시작합니다.	 >> File "MyDataManager.py", line 37, in MyDataManager
+|2022-01-18 00:26:08,295|	##INFO##		 바이낸스 선물 웹소켓	 >> File "MyDataManager.py", line 38, in MyDataManager
+|2022-01-18 00:26:08,295|	##INFO##		 바이낸스 현물 웹소켓	 >> File "MyDataManager.py", line 40, in MyDataManager
+|2022-01-18 00:26:08,295|	##INFO##		 업비트 현물 웹소켓	 >> File "MyDataManager.py", line 42, in MyDataManager
+|2022-01-18 00:26:08,295|	##INFO##	[끝] 웹소켓 설정이 끝났습니다.	 >> File "MyDataManager.py", line 44, in MyDataManager
+|2022-01-18 00:26:19,291|	##INFO##	STMXUSDT이 지연되고 있습니다. 제외시켜주세요.	 >> File "BaseWebSocket.py", line 46, in BaseWebSocket
+|2022-01-18 00:26:25,915|	##INFO##	AAVE의 step = 27825.00으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-18 00:26:25,915|	##INFO##	AXS의 step = 97080.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-18 00:26:25,915|	##INFO##	NEAR의 step = 23120.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-18 00:26:25,916|	##INFO##	NEO의 step = 29460.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-18 00:26:25,916|	##INFO##	SOL의 step = 174100.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-18 00:30:58,298|	##INFO##	[시작] 업비트 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 196, in ExGeneralInfo
+|2022-01-18 00:30:58,298|	##INFO##	[시작] 티커 정보를 업데이트를 시작 합니다.	 >> File "ExGeneralInfo.py", line 276, in ExGeneralInfo
+|2022-01-18 00:30:59,123|	##INFO##	[끝] 티커 정보를 업데이트가 완료 되었습니다.	 >> File "ExGeneralInfo.py", line 327, in ExGeneralInfo
+|2022-01-18 00:31:00,831|	##INFO##	[끝] 업비트 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 199, in ExGeneralInfo
+|2022-01-18 00:31:00,831|	##INFO##	[시작] 바이낸스 지갑 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 202, in ExGeneralInfo
+|2022-01-18 00:31:00,998|	##INFO##	[끝] 바이낸스 지갑 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 225, in ExGeneralInfo
+|2022-01-18 00:31:00,998|	##INFO##	[시작] 업비트 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 168, in ExGeneralInfo
+|2022-01-18 00:31:01,116|	##INFO##	[끝] 업비트 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 179, in ExGeneralInfo
+|2022-01-18 00:31:01,116|	##INFO##	[시작] 바이낸스 지갑 주소를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 154, in ExGeneralInfo
+|2022-01-18 00:31:06,004|	##INFO##	[끝] 바이낸스 지갑 주소를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 165, in ExGeneralInfo
+|2022-01-18 00:31:06,004|	##INFO##	[시작] 업비트 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 112, in ExGeneralInfo
+|2022-01-18 00:31:06,004|	##INFO##	[끝] 업비트 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 120, in ExGeneralInfo
+|2022-01-18 00:31:06,005|	##INFO##	[시작] 바이낸스 거래소 정보를 받아오고 있습니다.	 >> File "ExGeneralInfo.py", line 145, in ExGeneralInfo
+|2022-01-18 00:31:06,159|	##INFO##	[끝] 바이낸스 거래소 정보를 받아왔습니다.	 >> File "ExGeneralInfo.py", line 151, in ExGeneralInfo
+|2022-01-18 00:31:06,161|	##INFO##	[시작] 웹소켓 설정을 시작합니다.	 >> File "MyDataManager.py", line 37, in MyDataManager
+|2022-01-18 00:31:06,162|	##INFO##		 바이낸스 선물 웹소켓	 >> File "MyDataManager.py", line 38, in MyDataManager
+|2022-01-18 00:31:06,162|	##INFO##		 바이낸스 현물 웹소켓	 >> File "MyDataManager.py", line 40, in MyDataManager
+|2022-01-18 00:31:06,162|	##INFO##		 업비트 현물 웹소켓	 >> File "MyDataManager.py", line 42, in MyDataManager
+|2022-01-18 00:31:06,162|	##INFO##	[끝] 웹소켓 설정이 끝났습니다.	 >> File "MyDataManager.py", line 44, in MyDataManager
+|2022-01-18 00:31:18,010|	##INFO##	SCUSDT이 지연되고 있습니다. 제외시켜주세요.	 >> File "BaseWebSocket.py", line 46, in BaseWebSocket
+|2022-01-18 00:31:18,215|	##INFO##	AAVE의 step = 27810.00으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-18 00:31:18,215|	##INFO##	AXS의 step = 97170.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-18 00:31:18,215|	##INFO##	NEAR의 step = 23150.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-18 00:31:18,215|	##INFO##	NEO의 step = 29470.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager
+|2022-01-18 00:31:18,215|	##INFO##	SOL의 step = 174050.0으로 제외되었습니다.	 >> File "MyDataManager.py", line 119, in MyDataManager

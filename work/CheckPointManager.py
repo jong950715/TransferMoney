@@ -2,8 +2,6 @@ import pickle
 from enum import Enum
 
 
-
-
 class ExitCode(Enum):
     RUNNING = 'running',
     GOOD = 'good'
@@ -170,13 +168,11 @@ def testCode2():
         pickledData = pickle.loads(f.read())
     print(pickledData)
 
-    # del pickledData['submittedList'][0]
+    # del pickledData['submittedList'][1]
     # del pickledData['submittedList'][0]
 
     with open(pickleFile, 'wb') as f:
         f.write(pickle.dumps(pickledData))
-
-
 
 
 if __name__ == '__main__':
